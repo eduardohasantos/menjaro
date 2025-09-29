@@ -19,7 +19,7 @@ práticas de programação**.
 
 ## 📂 Estrutura do projeto
 
--   `intellifit/` → Configurações principais do projeto\
+-   `projeto/` → Configurações principais do projeto\
 -   `users/` → Módulo de autenticação e gestão de usuários\
 -   `workout/` → Exemplo de aplicação inicial (ajustar conforme evolução
     do projeto)
