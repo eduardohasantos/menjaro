@@ -41,6 +41,6 @@ python manage.py runserver
 
 Projeto desenvolvido pelos alunos da disciplina **Projetos 2**.
 
-## Plataformas Utilizadas
+## ✔️ Plataformas Utilizadas
 [![Docs](https://img.shields.io/badge/Docs-4285F4.svg?style=for-the-badge&logo=googledocs&logoColor=white)](https://docs.google.com/document/d/135Kd3Zr2Xbshk2W-SDKgKyMash7cN8LBxXVm6NHl1Qs/edit?usp=sharing)
 
