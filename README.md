@@ -7,8 +7,8 @@ empresas de comunicação de Pernambuco.
 
 ## 🚀 Tecnologias
 
--   [Python](https://www.python.org/)\
--   [Django](https://www.djangoproject.com/)\
+-   [Python](https://www.python.org/)
+-   [Django](https://www.djangoproject.com/)
 -   [SQLite](https://www.sqlite.org/)
 
 ## 📌 Objetivo
