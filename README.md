@@ -45,6 +45,8 @@ python manage.py runserver
       
 Nossa equipe desenvolveu os arquivos `models.py` e `admin.py` do projeto Django. No `models.py`, foram criadas as classes responsáveis por representar as entidades do sistema e suas respectivas relações no banco de dados. Já no `admin.py`, realizamos o registro desses modelos, configurando a visualização e a administração dos dados através do painel administrativo do `Django`. Essa implementação permite o gerenciamento fácil e organizado das informações cadastradas no sistema.
   </p>
+</details>
+
 ## 👥 Equipe
 
 Projeto desenvolvido pelos alunos da disciplina **Projetos 2**.
