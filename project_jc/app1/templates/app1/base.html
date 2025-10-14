@@ -1,0 +1,122 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>{% block title %}News Site{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'app1/css/style.css' %}">
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="container header-content">
+      <a href="{% url 'app1:home' %}" class="brand" aria-label="Página inicial">
+        <span class="logo-mark">JC</span><span class="logo-text">News</span>
+      </a>
+
+      <div class="header-actions">
+        <!-- Lupa -->
+        <button class="icon-btn" id="btn-search" aria-label="Abrir busca" title="Buscar">
+          <svg viewBox="0 0 24 24" class="icon" aria-hidden="true">
+            <path d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 10-.94.94l.27.28h.79l4.25 4.25a1 1 0 001.42-1.42L15.5 14zM5 9.5a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0z"/>
+          </svg>
+        </button>
+
+        <!-- Sininho -->
+        <button class="icon-btn" id="btn-bell" aria-label="Assinar notificações" title="Receber notificações">
+          <svg viewBox="0 0 24 24" class="icon" aria-hidden="true">
+            <path d="M12 22a2 2 0 002-2h-4a2 2 0 002 2zm6-6V11a6 6 0 10-12 0v5l-2 2v1h16v-1l-2-2z"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Barra de busca -->
+    <div class="search-bar" id="search-bar" hidden>
+      <form action="{% url 'app1:search' %}" method="get" class="search-form">
+        <input type="text" name="q" placeholder="Buscar notícias..." aria-label="Buscar notícias" required>
+        <button type="submit" class="search-submit">Buscar</button>
+        <button type="button" class="search-close" id="search-close" aria-label="Fechar busca">✕</button>
+      </form>
+    </div>
+  </header>
+
+  <!-- FLASH -->
+  {% if messages %}
+    <div class="flash-area container">
+      {% for message in messages %}
+        <div class="flash {{ message.tags }}">{{ message }}</div>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  <!-- CONTEÚDO -->
+  <main class="page-content">
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="container footer-content">
+      <p>© {% now "Y" %} News Site — Todos os direitos reservados Grupo 13.</p>
+    </div>
+  </footer>
+
+  <!-- MODAL INSCRIÇÃO -->
+  <div class="modal-backdrop" id="modal-backdrop" hidden></div>
+  <div class="modal" id="subscribe-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" hidden>
+    <div class="modal-header">
+      <h2 id="modal-title">Receber notificações</h2>
+      <button type="button" class="modal-close" id="modal-close" aria-label="Fechar">✕</button>
+    </div>
+    <div class="modal-body">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="flash {{ message.tags }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+
+        <p>Insira seu e-mail para ser avisado quando novas notícias forem publicadas.</p>
+        <form action="{% url 'app1:subscribe' %}" method="post" class="subscribe-form">
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+            <label for="id_email" class="sr-only">E-mail</label>
+            {{ form.email }}
+            {% if form.email.errors %}
+            <div class="field-error">{{ form.email.errors|striptags }}</div>
+            {% endif %}
+            <button type="submit" class="btn-primary">Assinar</button>
+        </form>
+    </div>
+  </div>
+
+  <!-- JS do header/modal -->
+  <script>
+    // Busca
+    const btnSearch = document.getElementById('btn-search');
+    const searchBar = document.getElementById('search-bar');
+    const searchClose = document.getElementById('search-close');
+    btnSearch?.addEventListener('click', () => {
+      searchBar.hidden = false;
+      searchBar.querySelector('input[name="q"]').focus();
+    });
+    searchClose?.addEventListener('click', () => { searchBar.hidden = true; });
+
+    // Modal
+    const btnBell = document.getElementById('btn-bell');
+    const modal = document.getElementById('subscribe-modal');
+    const backdrop = document.getElementById('modal-backdrop');
+    const modalClose = document.getElementById('modal-close');
+
+    function openModal(){ modal.hidden = false; backdrop.hidden = false; document.getElementById('id_email')?.focus(); }
+    function closeModal(){ modal.hidden = true; backdrop.hidden = true; }
+
+    btnBell?.addEventListener('click', openModal);
+    modalClose?.addEventListener('click', closeModal);
+    backdrop?.addEventListener('click', closeModal);
+    window.addEventListener('keydown', (e)=>{ if(e.key==='Escape') closeModal(); });
+  </script>
+</body>
+</html>
