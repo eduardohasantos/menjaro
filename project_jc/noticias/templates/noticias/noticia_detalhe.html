@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ noticia.titulo }}</title>
+    
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Controles de Acessibilidade */
+        .controles-fonte {
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: #f4f4f4;
+            border-radius: 5px;
+        }
+
+        .controles-fonte button {
+            font-size: 1.2rem; /* Tamanho do 'A+' e 'A-' */
+            font-weight: bold;
+            padding: 5px 12px;
+            cursor: pointer;
+            border: 1px solid #ccc;
+            background-color: #fff;
+            margin-left: 5px;
+        }
+
+        .controles-fonte button:hover {
+            background-color: #e9e9e9;
+        }
+
+        /* O alvo do nosso script */
+        #corpo-noticia {
+            /* Tamanho de fonte inicial padrão */
+            font-size: 16px; 
+            /* Transição suave ao mudar o tamanho */
+            transition: font-size 0.3s ease; 
+        }
+
+        /* * Usar 'linebreaksbr' do Django converte quebras 
+         * de linha (enter) em tags <br>
+        */
+        #corpo-noticia p {
+            margin-bottom: 1em;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>{{ noticia.titulo }}</h1>
+        <p>Publicado em: {{ noticia.data_publicacao|date:"d/m/Y H:i" }}</p>
+        <hr>
+
+        <div class="controles-fonte">
+            <strong>Acessibilidade:</strong>
+            <button id="diminuir-fonte" title="Diminuir Fonte (A-)">A-</button>
+            <button id="aumentar-fonte" title="Aumentar Fonte (A+)">A+</button>
+        </div>
+
+        <article id="corpo-noticia">
+            {{ noticia.corpo|linebreaks }}
+        </article>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+    
+            const btnAumentar = document.getElementById('aumentar-fonte');
+            const btnDiminuir = document.getElementById('diminuir-fonte');
+            const corpoNoticia = document.getElementById('corpo-noticia');
+
+
+            const TAMANHO_MINIMO = 12; 
+            const TAMANHO_MAXIMO = 32; 
+            const INCREMENTO = 2;      
+
+
+            function getTamanhoAtual() {
+                const estilo = window.getComputedStyle(corpoNoticia, null).getPropertyValue('font-size');
+                return parseFloat(estilo);
+            }
+
+
+            function setTamanhoFonte(novoTamanho) {
+                corpoNoticia.style.fontSize = novoTamanho + 'px';
+            }
+
+
+            btnAumentar.addEventListener('click', () => {
+                let tamanhoAtual = getTamanhoAtual();
+                if (tamanhoAtual < TAMANHO_MAXIMO) {
+                    let novoTamanho = tamanhoAtual + INCREMENTO;
+                    setTamanhoFonte(novoTamanho);
+                }
+            });
+
+
+            btnDiminuir.addEventListener('click', () => {
+                let tamanhoAtual = getTamanhoAtual();
+                if (tamanhoAtual > TAMANHO_MINIMO) {
+                    let novoTamanho = tamanhoAtual - INCREMENTO;
+                    setTamanhoFonte(novoTamanho);
+                }
+            });
+
+        });
+    </script>
+
+</body>
+</html>
