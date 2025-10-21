@@ -1,5 +1,6 @@
 {% extends 'app1/base.html' %}
 {% block title %}Início · News Site{% endblock %}
+
 {% block content %}
   <section class="container">
 
@@ -66,8 +67,6 @@
               <div class="noticia__acoes">
               </div>
             </article>
-          {% empty %}
-            <p>Não há notícias cadastradas.</p>
           {% endfor %}
         </section>
 
