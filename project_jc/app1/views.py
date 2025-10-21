@@ -1,13 +1,16 @@
 from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.views import View
-
+from .models import Noticia
 from .forms import SubscriptionForm
 
 
 class HomeView(View):
     def get(self, request):
-        return render(request, "app1/home.html", {"form": SubscriptionForm()})
+        noticias = Noticia.objects.order_by('-data_publicacao')
+        context = {"form": SubscriptionForm(), 'noticias': noticias}
+        return render(request, "app1/home.html", context)
+    
 
 class SubscribeView(View):
     def post(self, request):

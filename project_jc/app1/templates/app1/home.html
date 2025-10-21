@@ -2,6 +2,7 @@
 {% block title %}Início · News Site{% endblock %}
 {% block content %}
   <section class="container">
+
     {% if query %}
       <h1>Resultados para “{{ query }}”</h1>
       {% if results and results|length %}
@@ -13,9 +14,68 @@
       {% else %}
         <p>Nenhum resultado encontrado.</p>
       {% endif %}
+
     {% else %}
-      <h1>Bem-vindo ao site do Jc desenvolvido pelo grupo 13</h1>
-      <p>Assim que os models de notícia estiverem prontos, listaremos aqui.</p>
+      {% if noticias %}
+
+        {# ===== Notícia principal (a mais recente) ===== #}
+        {% with noticia_principal=noticias.0 %}
+          <article class="noticia noticia--principal" id="noticia-{{ noticia_principal.id }}">
+            <header class="noticia__cabecalho">
+              {% if noticia_principal.categoria %}
+                <span class="noticia__categoria">{{ noticia_principal.categoria.nome }}</span>
+              {% endif %}
+              <time datetime="{{ noticia_principal.data_publicacao|date:'c' }}">
+                {{ noticia_principal.data_publicacao|date:"d/m/Y H:i" }}
+              </time>
+              <span>• {{ noticia_principal.visualizacoes }} visualizações</span>
+              <span>• {{ noticia_principal.comentarios.count }} comentários</span>
+            </header>
+
+            <h2 class="noticia__titulo">{{ noticia_principal.titulo }}</h2>
+
+            <div class="noticia__conteudo">
+              {{ noticia_principal.conteudo|truncatechars:300 }}
+            </div>
+
+            <div class="noticia__acoes">            </div>
+          </article>
+        {% endwith %}
+
+        {# ===== Outras notícias ===== #}
+        <section class="grid-noticias" aria-label="Mais notícias">
+          {% for noticia in noticias|slice:"1:" %}
+            <article class="noticia" id="noticia-{{ noticia.id }}">
+              <header class="noticia__cabecalho">
+                {% if noticia.categoria %}
+                  <span class="noticia__categoria">{{ noticia.categoria.nome }}</span>
+                {% endif %}
+                <time datetime="{{ noticia.data_publicacao|date:'c' }}">
+                  {{ noticia.data_publicacao|date:"d/m/Y H:i" }}
+                </time>
+                <span>• {{ noticia.visualizacoes }} visualizações</span>
+                <span>• {{ noticia.comentarios.count }} comentários</span>
+              </header>
+
+              <h3 class="noticia__titulo">{{ noticia.titulo }}</h3>
+
+              <div class="noticia__conteudo">
+                {{ noticia.conteudo|truncatechars:180 }}
+              </div>
+
+              <div class="noticia__acoes">
+              </div>
+            </article>
+          {% empty %}
+            <p>Não há notícias cadastradas.</p>
+          {% endfor %}
+        </section>
+
+      {% else %}
+        <h1>Bem-vindo ao site do Jc desenvolvido pelo grupo 13</h1>
+        <p>Assim que os models de notícia estiverem prontos, listaremos aqui.</p>
+      {% endif %}
     {% endif %}
   </section>
 {% endblock %}
+
