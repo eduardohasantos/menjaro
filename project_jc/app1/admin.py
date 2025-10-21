@@ -60,3 +60,4 @@ class ComentarioAdmin(admin.ModelAdmin):
         return obj.texto
 
     resumo_do_texto.short_description = 'Trecho do Comentário'
+

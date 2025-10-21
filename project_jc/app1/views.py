@@ -1,9 +1,8 @@
 from django.contrib import messages
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 from .models import Noticia
 from .forms import SubscriptionForm
-
 
 class HomeView(View):
     def get(self, request):
@@ -38,10 +37,23 @@ class SearchView(View):
         results = []  # ex.: News.objects.filter(title__icontains=q)
         ctx = {"form": SubscriptionForm(), "query": q, "results": results}
         return render(request, "app1/home.html", ctx)
+    
 
-# from django.shortcuts import render
-# from django.http import HttpResponse
+def detalhe_noticia(request, pk):
+    """
+    Exibe uma única notícia com base na sua chave primária (pk).
+    """
 
-# def home(request):
-#     return HttpResponse("Created first APP")
-# Create your views here.
+    noticia = get_object_or_404(Noticia, pk=pk)
+    
+    contexto = {
+        'noticia': noticia
+    }
+    return render(request, 'app1/noticia_detalhe.html', contexto)
+
+    # from django.shortcuts import render
+    # from django.http import HttpResponse
+
+    # def home(request):
+    #     return HttpResponse("Created first APP")
+    # Create your views here.
