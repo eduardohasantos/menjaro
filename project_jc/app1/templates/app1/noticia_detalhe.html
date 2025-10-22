@@ -1,7 +1,11 @@
 {% extends 'app1/base.html' %}
+{% load static %}
 {% block content %}
 
-<div class="container">
+<link rel="stylesheet" href="{% static 'app1/css/noticia_detalhe.css' %}">
+
+
+<div class="noticia-page container">
     <h1>{{ noticia.titulo }}</h1>
     <p>Publicado em: {{ noticia.data_publicacao|date:"d/m/Y H:i" }}</p>
     <hr>
@@ -15,7 +19,6 @@
     <article id="corpo-noticia">
         {{ noticia.conteudo|linebreaks }}
     </article>
-
 </div>
 
 <script>
