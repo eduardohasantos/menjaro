@@ -46,6 +46,8 @@
   font-size: .95rem;
 }
 
+
+
 .noticia-page hr{
   border: none;
   height: 1px;
@@ -224,3 +226,11 @@
   .noticia-page hr{ display: none !important; }
   .noticia-page a{ color: #000; text-decoration: none; }
 }
+
+    
+.noticia-page .ler_mais{
+    font-size: small;
+    color: #6b7280;
+}
+
+

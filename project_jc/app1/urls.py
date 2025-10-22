@@ -1,6 +1,5 @@
 from django.urls import path
 from .views import HomeView, SubscribeView, SearchView, detalhe_noticia
-
 app_name = "app1"
 
 urlpatterns = [

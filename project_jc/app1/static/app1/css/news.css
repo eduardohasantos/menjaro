@@ -1,17 +1,234 @@
-.container{max-width:1100px;margin:0 auto;padding:16px}
-.grid-noticias{display:grid;grid-template-columns:1fr;gap:16px}
-@media(min-width:700px){.grid-noticias{grid-template-columns:1fr 1fr}}
-@media(min-width:1024px){.grid-noticias{grid-template-columns:repeat(3,1fr)}}
+/* =========================================
+   Página inicial de notícias (escopado)
+   ========================================= */
+.home-page{
+  /* Paleta e tokens locais */
+  --brand:#e21b2d;  /* vermelho do site */
+  --bg:#ffffff;
+  --card:#ffffff;
+  --text:#111827;
+  --muted:#6b7280;
+  --border:#e5e7eb;
+  --link:#0ea5e9;
+  --shadow:0 10px 25px rgba(0,0,0,.06);
+  --radius:16px;
+}
 
-.noticia{display:grid;gap:12px;padding:16px;border:1px solid #e6e8eb;border-radius:12px;background:#fff;box-shadow:0 1px 2px rgba(16,24,40,.04)}
-.noticia__cabecalho{display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px;color:#667085;font-size:14px}
-.noticia__categoria{font-weight:600;color:#155eef;background:#eff4ff;padding:2px 8px;border-radius:999px}
-.noticia__titulo{margin:0;font-size:20px;line-height:1.25;color:#0b1324}
-.noticia__conteudo{color:#3a3f4b;font-size:16px;line-height:1.55}
-.noticia__acoes{margin-top:4px}
-.noticia__link{text-decoration:none;font-weight:600;color:#155eef}
-.noticia__link:hover{text-decoration:underline}
+@media (prefers-color-scheme: dark){
+  .home-page{
+    --bg:#0b0c10;
+    --card:#0f1116;
+    --text:#e5e7eb;
+    --muted:#9ca3af;
+    --border:#1f2937;
+    --link:#38bdf8;
+    --shadow:0 10px 25px rgba(0,0,0,.35);
+  }
+}
 
-.noticia--principal{border:1px solid #d6d9df;background:linear-gradient(180deg,#ffffff 0%,#f8fafc 100%);padding:24px}
-.noticia--principal .noticia__titulo{font-size:28px;letter-spacing:-.2px}
-.noticia--principal .noticia__conteudo{font-size:17px}
+/* container visual só para a área principal da home */
+.home-page{
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: clamp(16px,2.8vw,32px);
+  box-shadow: var(--shadow);
+  max-width: 1100px;
+  margin: clamp(12px,2vw,24px) auto;
+}
+
+/* Títulos globais da página */
+.home-page h1{
+  font-size: clamp(1.4rem, 2.5vw, 2.2rem);
+  margin: 0 0 .6em 0;
+  color: var(--text);
+  letter-spacing: -0.015em;
+}
+
+/* ========= estados de busca ========= */
+.home-page h1 + ul{
+  list-style: none;
+  padding: 0;
+  margin: .5rem 0 0;
+}
+.home-page h1 + ul li{
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: .9rem 1rem;
+  box-shadow: var(--shadow);
+  margin-bottom: .75rem;
+}
+.home-page p{ color: var(--muted); }
+
+/* ========= cartão base de notícia ========= */
+.home-page .noticia{
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: clamp(12px,1.8vw,18px);
+  box-shadow: var(--shadow);
+  transition: transform .12s ease, box-shadow .12s ease, border-color .12s ease;
+}
+.home-page .noticia:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 18px 36px rgba(0,0,0,.10);
+  border-color: color-mix(in oklab, var(--brand) 25%, var(--border));
+}
+
+/* Cabeçalho/meta da notícia */
+.home-page .noticia__cabecalho{
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem .8rem;
+  align-items: center;
+  color: var(--muted);
+  font-size: .92rem;
+  margin-bottom: .4rem;
+}
+
+.home-page .noticia__categoria{
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  font-weight: 600;
+  color: #fff;
+  background: var(--brand);
+  padding: .25rem .6rem;
+  border-radius: 999px;
+  font-size: .78rem;
+  letter-spacing: .02em;
+}
+
+/* Títulos */
+.home-page .noticia__titulo{
+  color: var(--text);
+  margin: .2rem 0 .5rem;
+  line-height: 1.2;
+}
+
+/* Conteúdo (resumo) */
+.home-page .noticia__conteudo{
+  color: var(--text);
+  font-size: 1rem;
+  line-height: 1.65;
+}
+
+/* Ações (placeholder) */
+.home-page .noticia__acoes{
+  margin-top: .8rem;
+  display: flex;
+  gap: .6rem;
+}
+
+/* ========= destaque da notícia principal ========= */
+.home-page .noticia--principal{
+  padding: clamp(16px,3vw,28px);
+  border-width: 2px;
+  border-color: color-mix(in oklab, var(--brand) 25%, var(--border));
+  background:
+    linear-gradient(180deg, color-mix(in oklab, var(--brand) 6%, transparent), transparent 55%),
+    var(--card);
+}
+.home-page .noticia--principal .noticia__titulo{
+  font-size: clamp(1.4rem, 2.3vw, 2rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+.home-page .noticia--principal .noticia__conteudo{
+  font-size: clamp(1.02rem, 1.2vw, 1.125rem);
+}
+
+/* Barrinha decorativa abaixo do título da principal */
+.home-page .noticia--principal .noticia__titulo::after{
+  content:"";
+  display:block;
+  width: 72px;
+  height: 3px;
+  margin-top: 10px;
+  background: linear-gradient(90deg, var(--brand), transparent);
+  border-radius: 999px;
+}
+
+/* ========= grid das demais notícias ========= */
+.home-page .grid-noticias{
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: clamp(12px, 2vw, 18px);
+  margin-top: clamp(14px, 2.2vw, 22px);
+}
+
+/* 3 colunas no desktop, 2 no tablet, 1 no mobile */
+.home-page .grid-noticias > .noticia{
+  grid-column: span 4;
+}
+@media (max-width: 1024px){
+  .home-page .grid-noticias > .noticia{ grid-column: span 6; }
+}
+@media (max-width: 640px){
+  .home-page .grid-noticias{ gap: 12px; }
+  .home-page .grid-noticias > .noticia{ grid-column: 1 / -1; }
+}
+
+/* Títulos das notícias secundárias */
+.home-page .grid-noticias .noticia .noticia__titulo{
+  font-size: clamp(1.05rem, 1.5vw, 1.25rem);
+  font-weight: 750;
+}
+
+/* Separadores sutis dentro dos cartões */
+.home-page .noticia__cabecalho + .noticia__titulo{
+  margin-top: .2rem;
+}
+.home-page .noticia__titulo + .noticia__conteudo{
+  margin-top: .3rem;
+}
+
+/* Links/âncoras nos resumos (se houver) */
+/* .home-page .noticia__conteudo a{
+  color: var(--link);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+} */
+.home-page .noticia__conteudo a:hover{
+  text-decoration-thickness: 2px;
+}
+
+/* Acessibilidade: foco visível em elementos clicáveis internos */
+.home-page a:focus-visible,
+.home-page button:focus-visible{
+  outline: 3px solid color-mix(in oklab, var(--brand) 35%, #fff);
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+
+/* Espaçamentos quando não há notícias (estado vazio) */
+.home-page > h1 + p{
+  margin-top: .4rem;
+}
+
+/* Impressão: limpa plano de fundo e sombras */
+@media print{
+  .home-page{
+    box-shadow: none;
+    border: none;
+    padding: 0; margin: 0;
+  }
+}
+
+/* alvo direto do seu link */
+.noticia__conteudo a.ler__mais{
+  display:inline-block;
+  margin-top:6px;
+  padding:.45rem .75rem;
+  border:1px solid #e5e7eb;
+  border-radius:999px;
+  text-decoration:none;
+  font-weight:600;
+  color:#13d544;
+  background:#fff;
+}
+.noticia__conteudo a.ler__mais:hover{
+  background:#f3f4f6;
+  text-decoration:none;
+}
