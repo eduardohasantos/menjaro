@@ -8,11 +8,14 @@
 <div class="categorias-container">
     <h1>Categorias</h1>
     <ul class="categorias-list">
+        <ul class="categorias-list">
         {% for categoria in categorias %}
-            <li>
-                <a href="{% url 'app1:categoria_filtro' categoria.pk %}">{{ categoria }}</a>
-            </li>
-        {% empty %}
+        <li>
+            <a id="categoria-{{ categoria.pk }}" href="{% url 'app1:categoria_filtro' categoria.pk %}">
+                {{ categoria }}
+            </a>
+        </li>
+    {% empty %}
             <li>Não há categorias criadas</li>
         {% endfor %}
     </ul>

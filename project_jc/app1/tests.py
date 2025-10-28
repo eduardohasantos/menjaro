@@ -78,3 +78,55 @@ class LoginFormTest(StaticLiveServerTestCase):
         
         botao_assinar.click()
     
+    def test_entrar_categoria(self):
+        login_url = self.live_server_url
+        self.browser.get(login_url)
+        wait = WebDriverWait(self.browser, self.wait_time)
+        botao_categoria = wait.until(
+            EC.element_to_be_clickable((By.ID, 'btn-cat'))
+        )
+        botao_categoria.click()
+        botao_todas_categorias = wait.until(
+            EC.element_to_be_clickable((By.ID, 'categoria-1'))
+        )
+        botao_todas_categorias.click()
+
+    def test_entrar_noticia(self):
+        login_url = self.live_server_url + '/categorias/'
+        self.browser.get(login_url)
+        wait = WebDriverWait(self.browser, self.wait_time)
+        botao_noticia = wait.until(
+            EC.element_to_be_clickable((By.ID, 'categoria-1'))
+        )
+        botao_noticia.click()
+        botao_noticia_principal = wait.until(
+            EC.element_to_be_clickable((By.CLASS_NAME, 'ler__mais'))
+        )
+        botao_noticia_principal.click()
+    
+    def test_aumentar_fonte(self):
+        login_url = self.live_server_url + '/noticia/1/'
+        self.browser.get(login_url)
+        wait = WebDriverWait(self.browser, self.wait_time)
+        botao_aumentar_fonte = wait.until(
+            EC.element_to_be_clickable((By.ID, 'aumentar-fonte'))
+        )
+        botao_aumentar_fonte.click()
+        botao_aumentar_fonte.click()
+        botao_aumentar_fonte.click()
+
+    def test_diminuir_fonte(self):
+        login_url = self.live_server_url + '/noticia/1/'
+        self.browser.get(login_url)
+        wait = WebDriverWait(self.browser, self.wait_time)
+        botao_diminuir_fonte = wait.until(
+            EC.element_to_be_clickable((By.ID, 'diminuir-fonte'))
+        )
+        botao_diminuir_fonte.click()
+        botao_diminuir_fonte.click()
+        botao_diminuir_fonte.click()
+        
+
+        
+
+
