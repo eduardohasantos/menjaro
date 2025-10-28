@@ -1,0 +1,21 @@
+{% extends "app1/base.html" %}
+{% load static %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'app1/css/categorias.css' %}">
+
+<div class="categorias-container">
+    <h1>Categorias</h1>
+    <ul class="categorias-list">
+        {% for categoria in categorias %}
+            <li>
+                <a href="{% url 'app1:categoria_filtro' categoria.pk %}">{{ categoria }}</a>
+            </li>
+        {% empty %}
+            <li>Não há categorias criadas</li>
+        {% endfor %}
+    </ul>
+</div>
+
+{% endblock content %}

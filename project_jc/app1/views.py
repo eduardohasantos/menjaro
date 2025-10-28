@@ -1,7 +1,7 @@
 from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
-from .models import Noticia
+from .models import Noticia, Categoria
 from .forms import SubscriptionForm
 
 class HomeView(View):
@@ -57,3 +57,26 @@ def detalhe_noticia(request, pk):
     # def home(request):
     #     return HttpResponse("Created first APP")
     # Create your views here.
+
+
+def visualizar_categorias(requests):
+    categorias = Categoria.objects.order_by('nome')
+    context = {'categorias': categorias}
+
+    return render(requests, 'app1/categorias.html', context)
+
+
+
+def categoria_filtro(request, pk):
+    categoria = get_object_or_404(Categoria, pk=pk)
+
+    # Filtra as notícias da categoria e ordena por título
+    noticias = Noticia.objects.filter(
+        categoria=categoria
+    ).order_by('titulo')
+
+    contexto = {
+        'noticias': noticias,
+        'categoria': categoria
+    }
+    return render(request, 'app1/home.html', contexto)

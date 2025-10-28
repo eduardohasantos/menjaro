@@ -17,6 +17,12 @@
       </a>
 
       <div class="header-actions">
+         <!-- Botoes de navegacao -->
+        <nav class="header-nav">
+          <a class="nav-btn" href="{% url 'app1:home' %}">Mais Recentes</a>
+          <a class="nav-btn" href="{% url 'app1:categorias' %}">Categorias</a>
+        </nav>
+
         <!-- Lupa -->
         <button class="icon-btn" id="btn-search" aria-label="Abrir busca" title="Buscar">
           <svg viewBox="0 0 24 24" class="icon" aria-hidden="true">

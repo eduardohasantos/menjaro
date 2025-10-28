@@ -22,6 +22,50 @@ html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:s
 .icon-btn:hover{background:rgba(255,255,255,.25)}
 .icon{width:22px;height:22px;fill:#fff}
 
+
+/* ===== Botões de Navegação ===== */
+.nav-btn {
+  display: inline-block;
+  padding: 10px 18px;
+  margin: 0 5px;
+  background-color: #e60000; /* Vermelho do tema */
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-decoration: none;
+  border-radius: 6px;
+  transition: all 0.25s ease-in-out;
+  border: 2px solid transparent;
+}
+
+.nav-btn:hover {
+  background-color: #b70000;
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+.nav-btn:active {
+  transform: scale(0.96);
+}
+
+/* Se quiser destacar qual página está ativa */
+.nav-btn.active {
+  background-color: transparent;
+  color: #e60000;
+  border-color: #e60000;
+}
+
+/* Responsivo para telas menores */
+@media (max-width: 600px) {
+  .nav-btn {
+    padding: 8px 14px;
+    font-size: 0.85rem;
+    margin: 4px 0;
+  }
+}
+
+
+
 /* BUSCA */
 .search-bar{background:#fff;border-top:1px solid rgba(0,0,0,.05);padding:10px}
 .search-form{display:flex;gap:8px;align-items:center;max-width:700px;margin:0 auto}
