@@ -3,11 +3,23 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 from .models import Noticia, Categoria
 from .forms import SubscriptionForm
+from django.views.generic import ListView
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+from django.views.decorators.http import require_POST
 
 class HomeView(View):
     def get(self, request):
         noticias = Noticia.objects.order_by('-data_publicacao')
-        context = {"form": SubscriptionForm(), 'noticias': noticias}
+        favoritos_ids = []
+        if request.user.is_authenticated:
+            # Pega a lista de IDs das notícias favoritas do usuário
+            favoritos_ids = request.user.noticias_favoritas.values_list('id', flat=True)
+        context = {
+            "form": SubscriptionForm(), 
+            'noticias': noticias,
+            'favoritos_ids': favoritos_ids 
+        }
         return render(request, "app1/home.html", context)
     
 
@@ -28,14 +40,26 @@ class SubscribeView(View):
             return redirect("app1:home")
 
         messages.error(request, "Verifique o e-mail informado.")
-        return render(request, "app1/home.html", {"form": form})
+
+        noticias = Noticia.objects.order_by('-data_publicacao')[:10] # Limita em caso de erro
+        context = {"form": form, 'noticias': noticias}
+        return render(request, "app1/home.html", context)
 
 class SearchView(View):
     def get(self, request):
         q = request.GET.get("q", "").strip()
         # Integração com seus models de notícia quando existirem:
-        results = []  # ex.: News.objects.filter(title__icontains=q)
-        ctx = {"form": SubscriptionForm(), "query": q, "results": results}
+        noticias_encontradas = Noticia.objects.filter(titulo__icontains=q)
+        favoritos_ids = []
+        if request.user.is_authenticated:
+            favoritos_ids = request.user.noticias_favoritas.values_list('id', flat=True)
+
+        ctx = {
+            "form": SubscriptionForm(), 
+            "query": q, 
+            "noticias": noticias_encontradas, # Passa as notícias encontradas
+            'favoritos_ids': favoritos_ids # Passa os IDs dos favoritos
+        }
         return render(request, "app1/home.html", ctx)
     
 
@@ -45,18 +69,15 @@ def detalhe_noticia(request, pk):
     """
 
     noticia = get_object_or_404(Noticia, pk=pk)
+    is_favorita = False
+    if request.user.is_authenticated:
+        is_favorita = noticia.favoritos.filter(id=request.user.id).exists()
     
     contexto = {
-        'noticia': noticia
+        'noticia': noticia,
+        'is_favorita': is_favorita # Passa para o template de detalhe
     }
     return render(request, 'app1/noticia_detalhe.html', contexto)
-
-    # from django.shortcuts import render
-    # from django.http import HttpResponse
-
-    # def home(request):
-    #     return HttpResponse("Created first APP")
-    # Create your views here.
 
 
 def visualizar_categorias(requests):
@@ -75,8 +96,47 @@ def categoria_filtro(request, pk):
         categoria=categoria
     ).order_by('titulo')
 
+    favoritos_ids = []
+    if request.user.is_authenticated:
+        favoritos_ids = request.user.noticias_favoritas.values_list('id', flat=True)
+
     contexto = {
         'noticias': noticias,
-        'categoria': categoria
+        'categoria': categoria,
+        'favoritos_ids': favoritos_ids # Passa os IDs dos favoritos
     }
     return render(request, 'app1/home.html', contexto)
+
+
+@method_decorator(login_required, name='dispatch')
+class FavoritosListView(ListView):
+    """
+    View para listar APENAS as notícias favoritadas.
+    Requer que o usuário esteja logado.
+    """
+    model = Noticia
+    template_name = 'app1/meus_favoritos.html' 
+    context_object_name = 'noticias'
+
+    def get_queryset(self):
+        # Filtra o queryset para pegar apenas as 'noticias_favoritas'
+        # do usuário que está fazendo a requisição (request.user)
+        return self.request.user.noticias_favoritas.all().order_by('-data_publicacao')
+
+@login_required # Exige que o usuário esteja logado para favoritar
+@require_POST   # Garante que esta view só aceite requisições POST
+def favoritar_noticia_view(request, pk):
+    
+    #View que processa a ação de favoritar ou desfavoritar.
+    noticia = get_object_or_404(Noticia, pk=pk)
+
+    # Verifica se o usuário (request.user) JÁ favoritou esta notícia
+    if request.user in noticia.favoritos.all():
+        # Se sim, remove o favorito
+        noticia.favoritos.remove(request.user)
+    else:
+        # Se não, adiciona o favorito
+        noticia.favoritos.add(request.user)
+
+    # Redireciona o usuário de volta para a página de onde ele veio.
+    return redirect(request.META.get('HTTP_REFERER', 'app1:home'))

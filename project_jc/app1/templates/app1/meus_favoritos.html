@@ -1,0 +1,48 @@
+{% extends 'app1/base.html' %}
+{% load static %} {% block title %}Meus Favoritos · News Site{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'app1/css/news.css' %}">
+
+<section class="container">
+  <h1>Minhas Notícias Favoritas</h1>
+  <a class = "nav-btn"href="{% url 'app1:home' %}">Ver todas as notícias</a>
+  <hr>
+  
+  <section class="grid-noticias" aria-label="Minhas notícias favoritas">
+
+    {% for noticia in noticias %}
+      <article class="noticia" id="noticia-{{ noticia.id }}">
+        <header class="noticia__cabecalho">
+          {% if noticia.categoria %}
+            <span class="noticia__categoria">{{ noticia.categoria.nome }}</span>
+          {% endif %}
+          <time datetime="{{ noticia.data_publicacao|date:'c' }}">
+            {{ noticia.data_publicacao|date:"d/m/Y H:i" }}
+          </time>
+          <span>• {{ noticia.visualizacoes }} visualizações</span>
+        </header>
+        
+        <h3 class="noticia__titulo">
+          <a href="{% url 'app1:detalhe_noticia' noticia.pk %}">{{ noticia.titulo }}</a>
+        </h3>
+
+        <div class="noticia__acoes">
+          {% if user.is_authenticated %}
+          <form action="{% url 'app1:favoritar_noticia' noticia.pk %}" method="POST" style="display:inline;">
+            {% csrf_token %}
+            <button type="submit" class="btn-favorito favoritado" aria-label="Remover dos Favoritos">
+              <i class="fa-solid fa-star"></i>
+            </button>
+          </form>
+          {% endif %}
+        </div>
+      </article>
+
+    {% empty %}
+      <p>Você ainda não favoritou nenhuma notícia.</p>
+    {% endfor %}
+  </section>
+  
+</section>
+{% endblock %}

@@ -1,6 +1,7 @@
 
 from django.db import models
 from django.contrib.auth import get_user_model
+from django.contrib.auth.models import User
 
 class Categoria(models.Model):
 	nome = models.CharField(max_length=100, unique=True)
@@ -14,6 +15,12 @@ class Noticia(models.Model):
 	data_publicacao = models.DateTimeField(auto_now_add=True)
 	categoria = models.ForeignKey(Categoria, on_delete=models.SET_NULL, null=True, blank=True, related_name='noticias')
 	visualizacoes = models.PositiveIntegerField(default=0)  # Para "mais lidas"
+
+	favoritos = models.ManyToManyField(
+        User,
+        related_name='noticias_favoritas', # Permite acessar user.noticias_favoritas
+        blank=True # Permite que uma notícia não tenha nenhum favorito
+	)
 
 	def __str__(self):
 		return self.titulo
