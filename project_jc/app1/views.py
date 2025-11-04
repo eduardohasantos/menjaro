@@ -9,13 +9,11 @@ from django.views.decorators.http import require_POST
 class HomeView(View):
     def get(self, request):
         noticias = Noticia.objects.order_by('-data_publicacao')
-        favoritos_ids = []
-        if hasattr(request.user, 'noticias_favoritas'):
-            favoritos_ids = request.user.noticias_favoritas.values_list('id', flat=True)
+        favoritos_ids = request.session.get('favoritos', [])
         context = {
             "form": SubscriptionForm(),
-            'noticias': noticias,
-            'favoritos_ids': favoritos_ids
+            "noticias": noticias,
+            "favoritos_ids": favoritos_ids
         }
         return render(request, "app1/home.html", context)
 
@@ -23,7 +21,6 @@ class SubscribeView(View):
     def post(self, request):
         form = SubscriptionForm(request.POST)
         if form.is_valid():
-            sub, created = form.save(commit=False), False
             from .models import NewsletterSubscription
             sub, created = NewsletterSubscription.objects.get_or_create(
                 email=form.cleaned_data["email"]
@@ -42,39 +39,34 @@ class SearchView(View):
     def get(self, request):
         q = request.GET.get("q", "").strip()
         noticias_encontradas = Noticia.objects.filter(titulo__icontains=q)
-        favoritos_ids = []
-        if hasattr(request.user, 'noticias_favoritas'):
-            favoritos_ids = request.user.noticias_favoritas.values_list('id', flat=True)
+        favoritos_ids = request.session.get('favoritos', [])
         ctx = {
             "form": SubscriptionForm(),
             "query": q,
             "noticias": noticias_encontradas,
-            'favoritos_ids': favoritos_ids
+            "favoritos_ids": favoritos_ids
         }
         return render(request, "app1/home.html", ctx)
 
 def detalhe_noticia(request, pk):
     noticia = get_object_or_404(Noticia, pk=pk)
-    is_favorita = False
-    if hasattr(request.user, 'id') and request.user.id:
-        is_favorita = noticia.favoritos.filter(id=request.user.id).exists()
+    favoritos_ids = request.session.get('favoritos', [])
+    is_favorita = pk in favoritos_ids
     contexto = {
         'noticia': noticia,
         'is_favorita': is_favorita
     }
     return render(request, 'app1/noticia_detalhe.html', contexto)
 
-def visualizar_categorias(requests):
+def visualizar_categorias(request):
     categorias = Categoria.objects.order_by('nome')
     context = {'categorias': categorias}
-    return render(requests, 'app1/categorias.html', context)
+    return render(request, 'app1/categorias.html', context)
 
 def categoria_filtro(request, pk):
     categoria = get_object_or_404(Categoria, pk=pk)
     noticias = Noticia.objects.filter(categoria=categoria).order_by('titulo')
-    favoritos_ids = []
-    if hasattr(request.user, 'noticias_favoritas'):
-        favoritos_ids = request.user.noticias_favoritas.values_list('id', flat=True)
+    favoritos_ids = request.session.get('favoritos', [])
     contexto = {
         'noticias': noticias,
         'categoria': categoria,
@@ -86,21 +78,20 @@ class FavoritosListView(ListView):
     model = Noticia
     template_name = 'app1/meus_favoritos.html'
     context_object_name = 'noticias'
+
     def get_queryset(self):
-        if hasattr(self.request.user, 'noticias_favoritas'):
-            return self.request.user.noticias_favoritas.all().order_by('-data_publicacao')
-        return Noticia.objects.none()
+        favoritos_ids = self.request.session.get('favoritos', [])
+        return Noticia.objects.filter(id__in=favoritos_ids).order_by('-data_publicacao')
 
 @require_POST
 def favoritar_noticia_view(request, pk):
     noticia = get_object_or_404(Noticia, pk=pk)
-    if not request.user.is_authenticated:
-        messages.error(request, "Você precisa estar logado para favoritar notícias.")
-        return redirect(request.META.get('HTTP_REFERER', 'app1:home'))
-    if request.user in noticia.favoritos.all():
-        noticia.favoritos.remove(request.user)
+    favoritos = request.session.get('favoritos', [])
+    if pk in favoritos:
+        favoritos.remove(pk)
         messages.info(request, "Notícia removida dos favoritos.")
     else:
-        noticia.favoritos.add(request.user)
+        favoritos.append(pk)
         messages.success(request, "Notícia adicionada aos favoritos.")
+    request.session['favoritos'] = favoritos
     return redirect(request.META.get('HTTP_REFERER', 'app1:home'))
