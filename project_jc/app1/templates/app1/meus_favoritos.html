@@ -28,14 +28,12 @@
         </h3>
 
         <div class="noticia__acoes">
-          {% if user.is_authenticated %}
           <form action="{% url 'app1:favoritar_noticia' noticia.pk %}" method="POST" style="display:inline;">
             {% csrf_token %}
             <button type="submit" class="btn-favorito favoritado" aria-label="Remover dos Favoritos">
               <i class="fa-solid fa-star"></i>
             </button>
           </form>
-          {% endif %}
         </div>
       </article>
 
