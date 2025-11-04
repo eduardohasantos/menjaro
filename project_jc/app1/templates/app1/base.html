@@ -23,9 +23,7 @@
         <nav class="header-nav">
           <a class="nav-btn" href="{% url 'app1:home' %}">Mais Recentes</a>
           <a class="nav-btn" href="{% url 'app1:categorias' %}">Categorias</a>
-          {% if user.is_authenticated %}
-                <a class='nav-btn' href="{% url 'app1:meus_favoritos' %}">Meus Favoritos</a>
-            {% endif %}
+          <a class='nav-btn' href="{% url 'app1:meus_favoritos' %}">Meus Favoritos</a>
         </nav>
 
         <!-- Lupa -->

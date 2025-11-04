@@ -108,12 +108,8 @@ def categoria_filtro(request, pk):
     return render(request, 'app1/home.html', contexto)
 
 
-@method_decorator(login_required, name='dispatch')
+
 class FavoritosListView(ListView):
-    """
-    View para listar APENAS as notícias favoritadas.
-    Requer que o usuário esteja logado.
-    """
     model = Noticia
     template_name = 'app1/meus_favoritos.html' 
     context_object_name = 'noticias'
@@ -123,7 +119,7 @@ class FavoritosListView(ListView):
         # do usuário que está fazendo a requisição (request.user)
         return self.request.user.noticias_favoritas.all().order_by('-data_publicacao')
 
-@login_required # Exige que o usuário esteja logado para favoritar
+
 @require_POST   # Garante que esta view só aceite requisições POST
 def favoritar_noticia_view(request, pk):
     
