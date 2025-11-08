@@ -1,0 +1,56 @@
+{% extends 'app1/base.html' %}
+{% load static %}
+{% block title %}Resultados da pesquisa{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'app1/css/news.css' %}">
+
+<section class="container">
+  <h1>Resultados para “{{ query }}”</h1>
+
+  {% if results %}
+    <section class="grid-noticias" aria-label="Resultados da pesquisa">
+      {% for noticia in results %}
+        <article class="noticia" id="noticia-{{ noticia.id }}">
+          <header class="noticia__cabecalho">
+            {% if noticia.categoria %}
+              <span class="noticia__categoria">{{ noticia.categoria.nome }}</span>
+            {% endif %}
+            <time datetime="{{ noticia.data_publicacao|date:'c' }}">
+              {{ noticia.data_publicacao|date:"d/m/Y H:i" }}
+            </time>
+            <span>• {{ noticia.visualizacoes }} visualizações</span>
+            <span>• {{ noticia.comentarios.count }} comentários</span>
+          </header>
+
+          <h3 class="noticia__titulo">
+            <a href="{% url 'app1:detalhe_noticia' noticia.pk %}">
+              {{ noticia.titulo }}
+            </a>
+          </h3>
+
+          <div class="noticia__conteudo">
+            {{ noticia.conteudo|truncatechars:200 }}
+            <a class="ler__mais" href="{% url 'app1:detalhe_noticia' noticia.pk %}">Ler mais</a>
+          </div>
+
+          <div class="noticia__acoes">
+              <form action="{% url 'app1:favoritar_noticia' noticia.pk %}" method="POST" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit" class="btn-favorito {% if noticia.id in favoritos_ids %}favoritado{% endif %}" aria-label="Favoritar">
+                  {% if noticia.id in favoritos_ids %}
+                    <i class="fa-solid fa-star"></i>
+                  {% else %}
+                    <i class="fa-regular fa-star"></i>
+                  {% endif %}
+                </button>
+              </form>
+          </div>
+        </article>
+      {% endfor %}
+    </section>
+  {% else %}
+    <p>Nenhum resultado encontrado.</p>
+  {% endif %}
+</section>
+{% endblock %}

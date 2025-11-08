@@ -5,6 +5,8 @@ from .models import Noticia, Categoria
 from .forms import SubscriptionForm
 from django.views.generic import ListView
 from django.views.decorators.http import require_POST
+from django.db.models import Q
+
 
 class HomeView(View):
     def get(self, request):
@@ -38,15 +40,23 @@ class SubscribeView(View):
 class SearchView(View):
     def get(self, request):
         q = request.GET.get("q", "").strip()
-        noticias_encontradas = Noticia.objects.filter(titulo__icontains=q)
+        resultados = []
+
+        if q:
+            resultados = Noticia.objects.filter(
+                Q(titulo__icontains=q) | Q(conteudo__icontains=q)
+            ).order_by('-data_publicacao')
+
         favoritos_ids = request.session.get('favoritos', [])
-        ctx = {
+
+        contexto = {
             "form": SubscriptionForm(),
             "query": q,
-            "noticias": noticias_encontradas,
-            "favoritos_ids": favoritos_ids
+            "results": resultados,   
+            "favoritos_ids": favoritos_ids,
         }
-        return render(request, "app1/home.html", ctx)
+
+        return render(request, "app1/resultado_pesquisa.html", contexto)
 
 def detalhe_noticia(request, pk):
     noticia = get_object_or_404(Noticia, pk=pk)
@@ -95,3 +105,4 @@ def favoritar_noticia_view(request, pk):
         messages.success(request, "Notícia adicionada aos favoritos.")
     request.session['favoritos'] = favoritos
     return redirect(request.META.get('HTTP_REFERER', 'app1:home'))
+
