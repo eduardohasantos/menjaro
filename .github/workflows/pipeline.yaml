@@ -110,7 +110,7 @@ jobs:
             sleep 5
             screen -S deploy_session -X stuff 'python3 manage.py runserver 0.0.0.0:8000 &\n'
             
-            echo "✅ Deploy concluído com sucesso! TEEEM Q VIR EEEEEEPICA"
+            echo "✅ Deploy concluído com sucesso! TEEEM Q VIR EEEEEEPICA parte 1"
           '
           
           # Limpar chave SSH
