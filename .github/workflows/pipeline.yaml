@@ -102,8 +102,8 @@ jobs:
             python3 -m venv venv
             source venv/bin/activate
 
-            echo "🔧 Instalando dependências..."
-            pip install -r requirements.txt
+            #echo "🔧 Instalando dependências..."
+            #pip install -r requirements.txt
             
             echo "🔄 Reiniciando aplicação e testando commit"
             screen -S deploy_session -X stuff $'\003'
