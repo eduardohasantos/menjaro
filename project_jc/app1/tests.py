@@ -32,7 +32,7 @@ class LoginFormTest(StaticLiveServerTestCase):
         
         cls.browser = webdriver.Chrome(options=chrome_options)
         cls.browser.implicitly_wait(10)
-        cls.wait_time = 10  # Para os WebDriverWait
+        cls.wait_time = 30  # Para os WebDriverWait
         
         # Criar um usuário de teste
         cls.test_user = User.objects.create_user(
@@ -76,6 +76,8 @@ class LoginFormTest(StaticLiveServerTestCase):
         )
         botao_notificacao.click()
 
+        time.sleep(1)
+
         email_assinatura = wait.until(
             EC.presence_of_element_located((By.ID, 'id_email'))
         )
@@ -86,6 +88,8 @@ class LoginFormTest(StaticLiveServerTestCase):
         )
         botao_assinar.click()
 
+        time.sleep(1)
+
     def test_notify_unsucess(self):
         login_url = self.live_server_url
         self.browser.get(login_url)
@@ -95,6 +99,8 @@ class LoginFormTest(StaticLiveServerTestCase):
             EC.element_to_be_clickable((By.ID, 'btn-bell'))
         )
         botao_notificacao.click()
+
+        time.sleep(2)
 
         email_assinatura = wait.until(
             EC.presence_of_element_located((By.ID, 'id_email'))
@@ -107,10 +113,13 @@ class LoginFormTest(StaticLiveServerTestCase):
         email_assinatura.send_keys("")
         botao_assinar.click()
         
+        time.sleep(2)
         # Teste 2: Email já usado
         email_assinatura.clear() 
         email_assinatura.send_keys("Teste@gmail.com")
         botao_assinar.click()
+        
+        time.sleep(2)
     
     def test_entrar_categoria(self):
         login_url = self.live_server_url
@@ -128,17 +137,17 @@ class LoginFormTest(StaticLiveServerTestCase):
         botao_todas_categorias.click()
 
     def test_entrar_noticia(self):
-        login_url = self.live_server_url + '/categorias/'
+        login_url = self.live_server_url + '/categorias/1'
         self.browser.get(login_url)
         wait = WebDriverWait(self.browser, self.wait_time)
         
         botao_noticia = wait.until(
-            EC.element_to_be_clickable((By.ID, 'futebas'))
+            EC.element_to_be_clickable((By.ID, 'noticia_1'))
         )
         botao_noticia.click()
         
         botao_noticia_principal = wait.until(
-            EC.element_to_be_clickable((By.CLASS_NAME, 'ler__mais'))
+            EC.element_to_be_clickable((By.XPATH, '/html/body/main/section/article/div[1]/a'))
         )
         botao_noticia_principal.click()
     
@@ -211,14 +220,15 @@ class LoginFormTest(StaticLiveServerTestCase):
 
         driver.find_element(By.ID, "btn-search").click()
         campo_busca = driver.find_element(By.NAME, "q")
-        campo_busca.send_keys("economia" + Keys.RETURN)
+        campo_busca.send_keys("sou lindo" + Keys.RETURN)
 
         WebDriverWait(driver, 10).until(
             EC.presence_of_element_located((By.CLASS_NAME, "noticia"))
         )
 
         artigos = driver.find_elements(By.CLASS_NAME, "noticia")
-        print(f"📰 Foram encontradas {len(artigos)} notícias.")
+        time.sleep(3)
+        print(f"\n📰 Foram encontradas {len(artigos)} notícias.\n")
         assert len(artigos) > 0
 
     def test_pesquisa_sem_resultados(self):
