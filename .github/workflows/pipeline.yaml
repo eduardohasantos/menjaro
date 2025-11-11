@@ -95,7 +95,8 @@ jobs:
             ls
             
             echo "⬇️ Atualizando código..."
-            git pull origin main
+            git fetch origin
+            git reset --hard origin/main
             
             echo "📦 Ativando ambiente virtual..."
             python3 -m venv venv
