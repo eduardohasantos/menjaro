@@ -15,8 +15,8 @@ from app1 import models
 
 class LoginFormTest(StaticLiveServerTestCase):
     
-     @classmethod
-     def setUpClass(cls):
+    @classmethod
+    def setUpClass(cls):
         super().setUpClass()
         
         # Configurar opções do Chrome
