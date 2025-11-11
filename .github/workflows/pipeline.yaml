@@ -91,13 +91,15 @@ jobs:
             set -e  # Para no primeiro erro
             
             echo "📂 Navegando para o projeto..."
+            cd projetos_2
             ls
-            cd /home/ubuntu/menjaro/menjaro/project_jc || exit 1
+            cd /home/ubuntu/projetos_2/menjaro/menjaro/project_jc || exit 1
             
             echo "⬇️ Atualizando código..."
             git pull origin main
             
             echo "📦 Ativando ambiente virtual..."
+            python3 -m venv venv
             source venv/bin/activate
             
             echo "🔧 Instalando dependências..."
