@@ -96,13 +96,10 @@ jobs:
             
             echo "⬇️ Atualizando código..."
             git pull origin main
-            
+                    
             echo "📦 Ativando ambiente virtual..."
-            sudo apt install python3.12-venv
-            Y
-            echo "instalei"
+            sudo apt install - y python3.12-venv
             source venv/bin/activate
-            Y
 
             echo "🔧 Instalando dependências..."
             pip install -r requirements.txt
