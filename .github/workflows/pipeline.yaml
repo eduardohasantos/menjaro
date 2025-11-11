@@ -98,7 +98,7 @@ jobs:
             git pull origin main
             
             echo "📦 Ativando ambiente virtual..."
-            apt install python3.12-venv
+            sudo apt install python3.12-venv
             source venv/bin/activate
             
             echo "🔧 Instalando dependências..."
