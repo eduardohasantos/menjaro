@@ -30,6 +30,10 @@ class LoginFormTest(StaticLiveServerTestCase):
             chrome_options.add_argument("--disable-gpu")
             chrome_options.add_argument("--window-size=1920,1080")
         
+        cls.browser = webdriver.Chrome(options=chrome_options)
+        cls.browser.implicitly_wait(10)
+        cls.wait_time = 10  # Para os WebDriverWait
+        
         # Criar um usuário de teste
         cls.test_user = User.objects.create_user(
             username='teste', 
