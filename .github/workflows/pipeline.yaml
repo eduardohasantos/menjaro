@@ -91,7 +91,8 @@ jobs:
             set -e  # Para no primeiro erro
             
             echo "📂 Navegando para o projeto..."
-            cd projetos_2/menjaro/menjaro
+            cd projetos_2/menjaro
+            ls
             
             echo "⬇️ Atualizando código..."
             git pull origin main
