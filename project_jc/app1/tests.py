@@ -6,6 +6,8 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.chrome.options import Options
+import os
 from app1 import models
 
 #====COMMAND====
@@ -13,12 +15,21 @@ from app1 import models
 
 class LoginFormTest(StaticLiveServerTestCase):
     
-    @classmethod
-    def setUpClass(cls):
+     @classmethod
+     def setUpClass(cls):
         super().setUpClass()
-        cls.browser = webdriver.Chrome()
-        cls.wait_time = 10 
-    
+        
+        # Configurar opções do Chrome
+        chrome_options = Options()
+        
+        # Configurações para CI/CD
+        if os.environ.get('CI') or os.environ.get('GITHUB_ACTIONS'):
+            chrome_options.add_argument("--headless")
+            chrome_options.add_argument("--no-sandbox")
+            chrome_options.add_argument("--disable-dev-shm-usage")
+            chrome_options.add_argument("--disable-gpu")
+            chrome_options.add_argument("--window-size=1920,1080")
+        
         # Criar um usuário de teste
         cls.test_user = User.objects.create_user(
             username='teste', 
