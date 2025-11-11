@@ -105,10 +105,19 @@ jobs:
             echo "🔧 Instalando dependências..."
             pip install -r requirements.txt
             
-            echo "🔄 Reiniciando aplicação..."
-            sudo systemctl restart project_jc
-            
-            echo "✅ Deploy concluído com sucesso! TEEEM Q VIR EEEEEEPICA"
+            echo "🔄 Reiniciando aplicação na sessão 'deploy_session'..."
+
+            # 1. Envia Ctrl+C (interrupção) para o terminal da screen para parar o processo atual
+            screen -S deploy_session -X stuff $'\003' 
+
+            # 2. Aguarda um momento para garantir que o processo parou
+            sleep 5
+
+            # 3. Envia o comando para iniciar o servidor novamente
+            # **ATENÇÃO:** Ajuste 'python3 manage.py runserver 0.0.0.0:8000 &' se você usa Gunicorn ou outro comando
+            screen -S deploy_session -X stuff 'python3 manage.py runserver 0.0.0.0:8000 &\n'
+
+            echo "✅ Deploy concluído com sucesso!"
           '
           
           # Limpar chave SSH
