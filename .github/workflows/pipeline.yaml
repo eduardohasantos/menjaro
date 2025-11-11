@@ -91,6 +91,7 @@ jobs:
             set -e  # Para no primeiro erro
             
             echo "📂 Navegando para o projeto..."
+            ls
             cd /home/ubuntu/menjaro/menjaro/project_jc || exit 1
             
             echo "⬇️ Atualizando código..."
