@@ -99,8 +99,11 @@ jobs:
             
             echo "📦 Ativando ambiente virtual..."
             sudo apt install python3.12-venv
+            Y
+            echo "instalei"
             source venv/bin/activate
-            
+            Y
+
             echo "🔧 Instalando dependências..."
             pip install -r requirements.txt
             
