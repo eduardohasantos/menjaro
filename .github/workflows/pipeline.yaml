@@ -95,8 +95,7 @@ jobs:
             ls
             
             echo "⬇️ Atualizando código..."
-            git fetch origin
-            git reset --hard origin/main
+            git pull origin main
             
             echo "📦 Ativando ambiente virtual..."
             python3 -m venv venv
@@ -108,7 +107,7 @@ jobs:
             echo "🔄 Reiniciando aplicação..."
             sudo systemctl restart project_jc
             
-            echo "✅ Deploy concluído com sucesso!"
+            echo "✅ Deploy concluído com sucesso! TEEEM Q VIR EEEEEEPICA"
           '
           
           # Limpar chave SSH
