@@ -40,5 +40,3 @@ class Comentario(models.Model):
 
 	def __str__(self):
 		return f"Comentário de {self.usuario} em {self.noticia}"
-
-# Create your models here.

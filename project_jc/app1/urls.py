@@ -11,7 +11,8 @@ urlpatterns = [
     path("categorias/",visualizar_categorias, name = 'categorias' ),
     path("categorias/<int:pk>",categoria_filtro, name = 'categoria_filtro' ),
     path('meus-favoritos/', views.FavoritosListView.as_view(), name='meus_favoritos'),
-    path('noticia/<int:pk>/favoritar/', views.favoritar_noticia_view, name='favoritar_noticia'),
+    path('noticia/<int:pk>/favoritar/', views.favoritar_noticia_view, name='favoritar_noticia_view'),
+    path('noticia/<int:pk>/comentar/', views.adicionar_comentario, name='adicionar_comentario'),
 ]
 
 

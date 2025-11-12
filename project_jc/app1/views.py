@@ -2,11 +2,12 @@ from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 from .models import Noticia, Categoria
-from .forms import SubscriptionForm
+from .forms import SubscriptionForm,RegisterForm,ComentarioForm
 from django.views.generic import ListView
 from django.views.decorators.http import require_POST
 from django.db.models import Q
-
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import login
 
 class HomeView(View):
     def get(self, request):
@@ -60,13 +61,38 @@ class SearchView(View):
 
 def detalhe_noticia(request, pk):
     noticia = get_object_or_404(Noticia, pk=pk)
+    
     favoritos_ids = request.session.get('favoritos', [])
     is_favorita = pk in favoritos_ids
+    
+    # Lógica de Comentários
+    comentarios = noticia.comentarios.all().order_by('-data_comentario')
+    form_comentario = ComentarioForm()
+    
     contexto = {
         'noticia': noticia,
-        'is_favorita': is_favorita
+        'is_favorita': is_favorita,
+        'comentarios': comentarios,
+        'form_comentario': form_comentario
     }
     return render(request, 'app1/noticia_detalhe.html', contexto)
+
+@require_POST
+@login_required(login_url='/accounts/login/') # Redireciona se não estiver logado
+def adicionar_comentario(request, pk):
+    noticia = get_object_or_404(Noticia, pk=pk)
+    form = ComentarioForm(request.POST)
+    
+    if form.is_valid():
+        comentario = form.save(commit=False)
+        comentario.noticia = noticia
+        comentario.usuario = request.user # Associa ao usuário logado
+        comentario.save()
+        messages.success(request, "Comentário enviado com sucesso!")
+    else:
+        messages.error(request, "Erro ao enviar o comentário. Verifique o preenchimento.")
+        
+    return redirect('app1:detalhe_noticia', pk=pk)
 
 def visualizar_categorias(request):
     categorias = Categoria.objects.order_by('nome')
@@ -106,3 +132,18 @@ def favoritar_noticia_view(request, pk):
     request.session['favoritos'] = favoritos
     return redirect(request.META.get('HTTP_REFERER', 'app1:home'))
 
+
+def register_view(request):
+    if request.method == 'POST':
+        form = RegisterForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user) # Opcional: fazer login automático após o registo
+            messages.success(request, "Registo concluído com sucesso! Bem-vindo.")
+            return redirect('app1:home') # Redireciona para a Home
+        else:
+            messages.error(request, "Erro no registo. Por favor, corrija os erros abaixo.")
+    else:
+        form = RegisterForm()
+    
+    return render(request, 'registration/register.html', {'form': form})
