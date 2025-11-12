@@ -2,55 +2,65 @@
 {% load static %}
 
 {% block content %}
-
 <link rel="stylesheet" href="{% static 'app1/css/noticia_detalhe.css' %}">
 
 <div class="noticia-page container">
     
+    <!-- Cabeçalho da notícia -->
     <header class="mb-4">
         <h1>{{ noticia.titulo }}</h1>
-        <div class="d-flex justify-content-between align-items-center">
-            <span class="text-muted">Publicado em: {{ noticia.data_publicacao|date:"d/m/Y H:i" }}</span>
-            
-            <form action="{% url 'app1:favoritar_noticia_view' noticia.pk %}" method="POST" style="display:inline;">
-                {% csrf_token %}
-                <button type="submit" class="btn {% if is_favorita %}btn-danger{% else %}btn-outline-primary{% endif %} btn-sm">
-                    {% if is_favorita %}
-                        <i class="bi bi-heart-fill"></i> Remover dos Favoritos
-                    {% else %}
-                        <i class="bi bi-heart"></i> Adicionar aos Favoritos
-                    {% endif %}
-                </button>
-            </form>
+
+        <div class="d-flex justify-content-between align-items-center flex-wrap">
+            <span class="text-muted mb-2">Publicado em: {{ noticia.data_publicacao|date:"d/m/Y H:i" }}</span>
+
+            {% if user.is_authenticated %}
+                <form action="{% url 'app1:favoritar_noticia_view' noticia.pk %}" method="POST" class="m-0">
+                    {% csrf_token %}
+                    <button type="submit" class="btn {% if is_favorita %}btn-danger{% else %}btn-outline-primary{% endif %} btn-sm">
+                        {% if is_favorita %}
+                            <i class="bi bi-heart-fill"></i> Remover dos Favoritos
+                        {% else %}
+                            <i class="bi bi-heart"></i> Adicionar aos Favoritos
+                        {% endif %}
+                    </button>
+                </form>
+            {% else %}
+                <a href="{% url 'login' %}?next={{ request.path }}" class="btn btn-outline-secondary btn-sm">
+                    <i class="bi bi-heart"></i> Faça login para favoritar
+                </a>
+            {% endif %}
         </div>
     </header>
 
     <hr>
 
+    <!-- Controle de acessibilidade -->
     <div class="controles-fonte mb-3">
         <strong>Acessibilidade:</strong>
         <button id="diminuir-fonte" class="btn btn-sm btn-light border" title="Diminuir Fonte (A-)">A-</button>
         <button id="aumentar-fonte" class="btn btn-sm btn-light border" title="Aumentar Fonte (A+)">A+</button>
     </div>
 
-    <article id="corpo-noticia" class="mb-5">
+    <!-- Corpo da notícia -->
+    <article id="corpo-noticia" class="mb-5" style="font-size: 16px;">
         {{ noticia.conteudo|linebreaks }}
     </article>
 
     <hr>
 
+    <!-- Seção de comentários -->
     <section class="comentarios-section mt-5">
         <h3>Comentários ({{ comentarios.count }})</h3>
 
         <div class="lista-comentarios mb-4">
             {% for comentario in comentarios %}
-                <div class="card mb-2">
+                <div class="card mb-2 shadow-sm">
                     <div class="card-body p-3">
                         <h6 class="card-subtitle mb-2 text-muted d-flex justify-content-between">
                             <span><strong>{{ comentario.usuario.username }}</strong> disse:</span>
                             <small>{{ comentario.data_comentario|date:"d/m/Y H:i" }}</small>
                         </h6>
-                        <p class="card-text">{{ comentario.texto }}</p>
+                        <p class="card-text mb-0">{{ comentario.texto }}</p>
                     </div>
                 </div>
             {% empty %}
@@ -58,60 +68,61 @@
             {% endfor %}
         </div>
 
+        <!-- Formulário de novo comentário -->
         <div class="novo-comentario p-3 bg-light rounded">
             {% if user.is_authenticated %}
-                <h4>Deixe seu comentário</h4>
+                <h4 class="mb-3">Deixe seu comentário</h4>
                 <form action="{% url 'app1:adicionar_comentario' noticia.pk %}" method="POST">
                     {% csrf_token %}
                     <div class="mb-3">
-                        {{ form_comentario.texto }} </div>
+                        {{ form_comentario.texto }}
+                    </div>
                     <button type="submit" class="btn btn-primary">Enviar Comentário</button>
                 </form>
             {% else %}
                 <div class="text-center">
                     <p class="mb-2">Você precisa estar logado para comentar.</p>
-                    <a href="{% url 'login' %}?next={{ request.path }}" class="btn btn-outline-primary">Fazer Login</a>
+                    <a href="{% url 'login' %}?next={{ request.path }}" class="btn btn-outline-primary">
+                        Fazer Login
+                    </a>
                 </div>
             {% endif %}
         </div>
     </section>
 </div>
 
+<!-- Script de controle de tamanho de fonte -->
 <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const btnAumentar = document.getElementById('aumentar-fonte');
-        const btnDiminuir = document.getElementById('diminuir-fonte');
-        const corpoNoticia = document.getElementById('corpo-noticia');
+document.addEventListener('DOMContentLoaded', () => {
+    const btnAumentar = document.getElementById('aumentar-fonte');
+    const btnDiminuir = document.getElementById('diminuir-fonte');
+    const corpoNoticia = document.getElementById('corpo-noticia');
 
-        const TAMANHO_MINIMO = 12; 
-        const TAMANHO_MAXIMO = 32; 
-        const INCREMENTO = 2;      
+    const TAMANHO_MINIMO = 12;
+    const TAMANHO_MAXIMO = 32;
+    const INCREMENTO = 2;
 
-        function getTamanhoAtual() {
-            const estilo = window.getComputedStyle(corpoNoticia, null).getPropertyValue('font-size');
-            return parseFloat(estilo);
+    function getTamanhoAtual() {
+        return parseFloat(window.getComputedStyle(corpoNoticia).fontSize);
+    }
+
+    function setTamanhoFonte(novoTamanho) {
+        corpoNoticia.style.fontSize = novoTamanho + 'px';
+    }
+
+    btnAumentar.addEventListener('click', () => {
+        let tamanhoAtual = getTamanhoAtual();
+        if (tamanhoAtual < TAMANHO_MAXIMO) {
+            setTamanhoFonte(tamanhoAtual + INCREMENTO);
         }
-
-        function setTamanhoFonte(novoTamanho) {
-            corpoNoticia.style.fontSize = novoTamanho + 'px';
-        }
-
-        btnAumentar.addEventListener('click', () => {
-            let tamanhoAtual = getTamanhoAtual();
-            if (tamanhoAtual < TAMANHO_MAXIMO) {
-                let novoTamanho = tamanhoAtual + INCREMENTO;
-                setTamanhoFonte(novoTamanho);
-            }
-        });
-
-        btnDiminuir.addEventListener('click', () => {
-            let tamanhoAtual = getTamanhoAtual();
-            if (tamanhoAtual > TAMANHO_MINIMO) {
-                let novoTamanho = tamanhoAtual - INCREMENTO;
-                setTamanhoFonte(novoTamanho);
-            }
-        });
     });
-</script>
 
+    btnDiminuir.addEventListener('click', () => {
+        let tamanhoAtual = getTamanhoAtual();
+        if (tamanhoAtual > TAMANHO_MINIMO) {
+            setTamanhoFonte(tamanhoAtual - INCREMENTO);
+        }
+    });
+});
+</script>
 {% endblock %}

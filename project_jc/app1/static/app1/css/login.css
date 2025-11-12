@@ -1,10 +1,13 @@
 .login-page {
   --brand: #e21b2d;
   --bg: #0b0c10;
-  --text: #ffff; /* letras escuras */
-  --muted: #6b7280;
-  --border: #e5e7eb;
-  --shadow: 0 8px 20px rgba(0,0,0,.06);
+  --text: #f5f5f5; /* texto principal branco suave */
+  --input-text: #111; /* texto digitado (escuro) */
+  --input-bg: #ffffff; /* fundo do campo */
+  --muted: #9ca3af;
+  --border: #374151;
+  --shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+
   background: var(--bg);
   min-height: 100vh;
   display: flex;
@@ -14,7 +17,7 @@
 }
 
 .login-page .container {
-  background: var(--bg);
+  background: #111418;
   padding: 2rem;
   border-radius: 16px;
   box-shadow: var(--shadow);
@@ -44,13 +47,16 @@
   padding: 0.6rem 0.8rem;
   border-radius: 8px;
   border: 1px solid var(--border);
-  background: #f9fafb;
-  color: var(--text);
+  background: var(--input-bg);
+  color: var(--input-text); /* texto preto visível */
+  font-weight: 500;
+  transition: all 0.2s ease;
 }
 
 .login-page input:focus {
   outline: 2px solid var(--brand);
   outline-offset: 2px;
+  background: #fff;
 }
 
 .login-page button {
@@ -61,7 +67,7 @@
   border: none;
   border-radius: 12px;
   cursor: pointer;
-  transition: background .2s ease;
+  transition: background 0.2s ease;
 }
 
 .login-page button:hover {
@@ -86,7 +92,7 @@
 
 /* Mensagens de erro */
 .login-page .error {
-  color: #f87171; /* vermelho claro */
+  color: #f87171;
   font-size: 0.875rem;
   margin-top: 0.2rem;
 }
