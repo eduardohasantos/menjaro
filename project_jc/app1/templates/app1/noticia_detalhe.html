@@ -45,8 +45,22 @@
 
   <hr>
 
-  <section class="comentarios-section mt-5">
+<section class="comentarios-section mt-5">
     <h3>Comentários ({{ comentarios.count }})</h3>
+
+    <form method="get" class="mb-3 d-flex gap-2">
+        <button type="submit" name="filtro" value="recentes" class="btn btn-outline-primary btn-sm">
+            <i class="bi bi-arrow-down"></i> Mais recentes
+        </button>
+        <button type="submit" name="filtro" value="antigos" class="btn btn-outline-primary btn-sm">
+            <i class="bi bi-arrow-up"></i> Mais antigos
+        </button>
+        {% if user.is_authenticated %}
+            <button type="submit" name="filtro" value="meus" class="btn btn-outline-primary btn-sm">
+                <i class="bi bi-person"></i> Meus comentários
+            </button>
+        {% endif %}
+    </form>
 
     <div class="lista-comentarios mb-4">
       {% for comentario in comentarios %}
@@ -77,26 +91,6 @@
         <p class="text-muted">Nenhum comentário ainda. Seja o primeiro a participar!</p>
       {% endfor %}
     </div>
-
-    <div class="novo-comentario p-3 bg-light rounded">
-      {% if user.is_authenticated %}
-        <h4 class="mb-3 text-muted">Deixe seu comentário</h4>
-        <form action="{% url 'app1:adicionar_comentario' noticia.pk %}" method="POST">
-          {% csrf_token %}
-          <div class="mb-3">
-            {{ form_comentario.texto }}
-          </div>
-          <button type="submit" class="btn btn-primary">Enviar Comentário</button>
-        </form>
-      {% else %}
-        <div class="text-center">
-          <p class="mb-2">Você precisa estar logado para comentar.</p>
-          <a href="{% url 'login' %}?next={{ request.path }}" class="btn btn-outline-primary">Fazer Login</a>
-        </div>
-      {% endif %}
-    </div>
-  </section>
-</div>
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {

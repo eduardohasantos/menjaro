@@ -79,10 +79,21 @@ def detalhe_noticia(request, pk):
         noticia.visualizacoes += 1
         noticia.save()
 
+
+    filtro = request.GET.get('filtro', 'recentes')
+
     comentarios = noticia.comentarios.all()
+    if filtro == 'recentes':
+        comentarios = comentarios.order_by('-data_comentario')
+    elif filtro == 'antigos':
+        comentarios = comentarios.order_by('data_comentario')
+    elif filtro == 'meus' and request.user.is_authenticated:
+        comentarios = comentarios.filter(usuario=request.user).order_by('-data_comentario')
+
     return render(request, 'app1/noticia_detalhe.html', {
         'noticia': noticia,
         'comentarios': comentarios,
+        'filtro_atual': filtro
     })
 
 

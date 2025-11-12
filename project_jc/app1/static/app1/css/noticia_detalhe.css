@@ -344,7 +344,6 @@
   color: var(--brand);
 }
 
-/* Transições suaves de hover */
 .comentario-acoes a i {
   transition: color 0.2s ease, transform 0.15s ease;
 }
@@ -352,3 +351,5 @@
 .comentario-acoes a:hover i {
   transform: scale(1.2);
 }
+
+
