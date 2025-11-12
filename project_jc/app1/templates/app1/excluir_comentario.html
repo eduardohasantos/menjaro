@@ -1,0 +1,14 @@
+{% extends 'app1/base.html' %}
+{% block content %}
+<div class="container mt-5">
+    <h3>Excluir comentário</h3>
+    <p>Tem certeza que deseja excluir este comentário?</p>
+    <p><em>{{ comentario.texto }}</em></p>
+
+    <form method="POST">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Sim, excluir</button>
+        <a href="{% url 'app1:detalhe_noticia' comentario.noticia.pk %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
+{% endblock %}

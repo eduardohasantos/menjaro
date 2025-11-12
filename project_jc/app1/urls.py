@@ -1,9 +1,10 @@
 from django.urls import path
 from .views import (
     HomeView, SubscribeView, SearchView, detalhe_noticia, visualizar_categorias,
-    categoria_filtro, FavoritosListView, favoritar_noticia_view, adicionar_comentario
+    categoria_filtro, FavoritosListView, favoritar_noticia_view,
+    adicionar_comentario, editar_comentario, excluir_comentario
 )
-
+from . import views
 app_name = "app1"
 
 urlpatterns = [
@@ -11,7 +12,7 @@ urlpatterns = [
     path("subscribe/", SubscribeView.as_view(), name="subscribe"),
     path("search/", SearchView.as_view(), name="search"),
 
-    path("noticia/<int:pk>/", detalhe_noticia, name="detalhe_noticia"),
+    path('noticia/<int:pk>/', views.detalhe_noticia, name='detalhe_noticia'),
     path("noticia/<int:pk>/favoritar/", favoritar_noticia_view, name="favoritar_noticia_view"),
     path("noticia/<int:pk>/comentar/", adicionar_comentario, name="adicionar_comentario"),
 
@@ -19,4 +20,8 @@ urlpatterns = [
     path("categorias/<int:pk>/", categoria_filtro, name="categoria_filtro"),
 
     path("meus-favoritos/", FavoritosListView.as_view(), name="meus_favoritos"),
+
+    path('comentario/<int:comentario_id>/editar/', views.editar_comentario, name='editar_comentario'),
+    path('comentario/<int:comentario_id>/excluir/', views.excluir_comentario, name='excluir_comentario'),
+
 ]
