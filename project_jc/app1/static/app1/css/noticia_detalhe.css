@@ -353,22 +353,21 @@
 }
 
 
-/* Container dos botões de filtro */
 .filtro-comentarios {
     display: flex;
-    gap: 8px;         /* Espaço entre os botões */
-    flex-wrap: nowrap; /* Mantém os botões em linha */
+    gap: 8px;         
+    flex-wrap: nowrap;  /* Mantém os botões em linha */
     margin-bottom: 1rem;
 }
 
 /* Estilo dos botões de filtro */
 .btn-filtro {
-    background-color: #e0e0e0; /* Fundo escuro da notícia */
-    color: #d32f2f;            /* Vermelho do site */
+    background-color: #e0e0e0;
+    color: #d32f2f;            
     border: none;
     display: flex;
     align-items: center;
-    gap: 4px;                  /* Espaço entre ícone e texto */
+    gap: 4px;                  
     padding: 6px 12px;
     border-radius: 5px;
     cursor: pointer;
@@ -376,14 +375,89 @@
     transition: all 0.2s ease;
 }
 
-/* Hover dos botões */
+
 .btn-filtro:hover {
     background-color: #d32f2f;
     color: #fff;
 }
 
-/* Remover o foco roxo/outline */
+
 .btn-filtro:focus {
     outline: none;
     box-shadow: none;
+}
+
+.modal-confirm {
+  display: none; 
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.5);
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.modal-content-site {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 12px;
+  text-align: center;
+  max-width: 400px;
+  width: 90%;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.25);
+  font-family: inherit;
+}
+
+.modal-content-site p {
+  margin-bottom: 20px;
+  font-weight: 500;
+  color: #333333;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: space-around;
+  gap: 10px;
+}
+
+.modal-buttons .btn-cancelar {
+  background-color: #f1f1f1;
+  color: #333333;
+  border-radius: 6px;
+  padding: 8px 16px;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.modal-buttons .btn-cancelar:hover {
+  background-color: #e0e0e0;
+}
+
+.modal-buttons .btn-confirmar {
+  background-color: #dc3545;
+  color: #ffffff;
+  border-radius: 6px;
+  padding: 8px 16px;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.modal-buttons .btn-confirmar:hover {
+  background-color: #c82333;
+}
+
+.btn-excluir {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #dc3545;
+  font-size: 1.1rem;
+  margin-left: 5px;
+}
+
+.btn-excluir:hover {
+  opacity: 0.8;
 }

@@ -5,7 +5,6 @@
 <link rel="stylesheet" href="{% static 'app1/css/noticia_detalhe.css' %}">
 
 <div class="noticia-page container">
-
   <header class="mb-4">
     <h1>{{ noticia.titulo }}</h1>
 
@@ -48,7 +47,6 @@
   <section class="comentarios-section mt-5">
     <h3>Comentários ({{ comentarios.count }})</h3>
 
-    <!-- Botões de filtro -->
     <form method="get" class="mb-3 d-flex gap-2 filtro-comentarios">
         <button type="submit" name="filtro" value="recentes" class="btn btn-filtro">
             <i class="bi bi-arrow-down"></i> Mais recentes
@@ -81,7 +79,7 @@
                 <a href="{% url 'app1:editar_comentario' comentario.id %}" class="editar" title="Editar comentário">
                   <i class="bi bi-pencil"></i>
                 </a>
-                <a href="{% url 'app1:excluir_comentario' comentario.id %}" class="excluir" title="Excluir comentário" onclick="return confirmarExclusao('{{ comentario.id }}')">
+                <a href="#" class="excluir" data-url="{% url 'app1:excluir_comentario' comentario.id %}" title="Excluir comentário" onclick="abrirModal('{{ comentario.id }}', '{% url 'app1:excluir_comentario' comentario.id %}')">
                   <i class="bi bi-trash"></i>
                 </a>
               </div>
@@ -113,12 +111,40 @@
   </section>
 </div>
 
+<div id="modalConfirm" class="modal-confirm">
+  <div class="modal-content-site">
+    <p>Tem certeza que deseja excluir este comentário?</p>
+    <div class="modal-buttons">
+      <button id="btnCancelar" class="btn-cancelar">Cancelar</button>
+      <a id="btnConfirmar" href="#" class="btn-confirmar">Excluir</a>
+    </div>
+  </div>
+</div>
+
 <script>
+let modal = document.getElementById('modalConfirm');
+let btnConfirmar = document.getElementById('btnConfirmar');
+let btnCancelar = document.getElementById('btnCancelar');
+
+function abrirModal(id, url) {
+  btnConfirmar.href = url;
+  modal.style.display = 'flex';
+}
+
+btnCancelar.onclick = function() {
+  modal.style.display = 'none';
+};
+
+window.onclick = function(event) {
+  if (event.target === modal) {
+    modal.style.display = 'none';
+  }
+};
+
 document.addEventListener('DOMContentLoaded', () => {
   const btnAumentar = document.getElementById('aumentar-fonte');
   const btnDiminuir = document.getElementById('diminuir-fonte');
   const corpoNoticia = document.getElementById('corpo-noticia');
-
   const TAMANHO_MINIMO = 12;
   const TAMANHO_MAXIMO = 32;
   const INCREMENTO = 2;
@@ -133,16 +159,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
   btnAumentar.addEventListener('click', () => {
     let tamanhoAtual = getTamanhoAtual();
-    if (tamanhoAtual < TAMANHO_MAXIMO) {
-      setTamanhoFonte(tamanhoAtual + INCREMENTO);
-    }
+    if (tamanhoAtual < TAMANHO_MAXIMO) setTamanhoFonte(tamanhoAtual + INCREMENTO);
   });
 
   btnDiminuir.addEventListener('click', () => {
     let tamanhoAtual = getTamanhoAtual();
-    if (tamanhoAtual > TAMANHO_MINIMO) {
-      setTamanhoFonte(tamanhoAtual - INCREMENTO);
-    }
+    if (tamanhoAtual > TAMANHO_MINIMO) setTamanhoFonte(tamanhoAtual - INCREMENTO);
   });
 });
 </script>

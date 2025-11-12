@@ -26,8 +26,8 @@ class ComentarioForm(forms.ModelForm):
             'texto': forms.Textarea(attrs={
                 'class': 'form-control',
                 'rows': 3,
-                'placeholder': 'Escreva seu comentário aqui...'
-            }),
+                'placeholder': 'Escreva seu comentário...'
+            })
         }
 
 
