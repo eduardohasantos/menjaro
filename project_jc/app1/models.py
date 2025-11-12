@@ -27,10 +27,16 @@ class Noticia(models.Model):
         blank=True
     )
 
+    # Campo para controlar visualizações únicas de usuários logados
+    usuarios_que_visitaram = models.ManyToManyField(
+        User,
+        related_name='noticias_visualizadas',
+        blank=True
+    )
+
     def __str__(self):
         return self.titulo
-
-
+    
 class NewsletterSubscription(models.Model):
     email = models.EmailField(unique=True)
     data_cadastro = models.DateTimeField(auto_now_add=True)

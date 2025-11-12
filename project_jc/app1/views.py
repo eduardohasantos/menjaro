@@ -70,20 +70,20 @@ class SearchView(View):
 def detalhe_noticia(request, pk):
     noticia = get_object_or_404(Noticia, pk=pk)
 
-    is_favorita = False
     if request.user.is_authenticated:
-        is_favorita = noticia.favoritos.filter(id=request.user.id).exists()
+        if request.user not in noticia.usuarios_que_visitaram.all():
+            noticia.visualizacoes += 1
+            noticia.usuarios_que_visitaram.add(request.user)
+            noticia.save()
+    else:
+        noticia.visualizacoes += 1
+        noticia.save()
 
-    comentarios = noticia.comentarios.all().order_by('-data_comentario')
-    form_comentario = ComentarioForm()
-
-    contexto = {
+    comentarios = noticia.comentarios.all()
+    return render(request, 'app1/noticia_detalhe.html', {
         'noticia': noticia,
-        'is_favorita': is_favorita,
         'comentarios': comentarios,
-        'form_comentario': form_comentario
-    }
-    return render(request, 'app1/noticia_detalhe.html', contexto)
+    })
 
 
 @require_POST
