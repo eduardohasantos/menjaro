@@ -1,0 +1,92 @@
+.auth-container {
+    max-width: 600px; 
+    margin: 40px auto; 
+    padding: 30px; 
+    border: 1px solid var(--border, #ddd); 
+    border-radius: 8px; 
+    box-shadow: var(--shadow, 0 4px 12px rgba(0,0,0,0.05));
+    background: var(--bg, #fff);
+}
+
+.auth-container h2 {
+    text-align: center; 
+    margin-bottom: 25px;
+    color: var(--text, #1f2937);
+}
+
+.auth-container form p {
+    margin-bottom: 15px;
+    color: var(--text, #1f2937);
+}
+
+.auth-container form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+    color: var(--text, #1f2937);
+}
+
+.auth-container form input[type="text"],
+.auth-container form input[type="password"],
+.auth-container form input[type="email"] {
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box; /* Importante para o padding não quebrar o layout */
+    border: 1px solid var(--border, #ccc);
+    border-radius: 4px;
+    background: var(--bg, #fff);
+    color: var(--text, #1f2937);
+    font-size: 1rem;
+}
+
+.auth-container form .helptext {
+    font-size: 0.85rem;
+    color: var(--muted, #666);
+    display: block;
+    margin-top: 4px;
+}
+
+.auth-container form .errorlist {
+    color: #e21b2d;
+    list-style-type: none;
+    padding: 0;
+    margin: 5px 0;
+    font-weight: bold;
+}
+
+.auth-container .auth-button {
+    width: 100%; 
+    padding: 12px; 
+    font-size: 1.1rem; 
+    margin-top: 15px;
+    background-color: var(--brand, #e21b2d);
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.2s ease;
+}
+.auth-container .auth-button:hover {
+    background-color: #b0101f;
+}
+
+
+.auth-container hr {
+    margin: 25px 0;
+    border: 0;
+    border-top: 1px solid var(--border, #eee);
+}
+
+.auth-container .auth-link {
+    text-align: center;
+    color: var(--text, #1f2937);
+}
+.auth-container .auth-link a {
+    color: var(--link, #0ea5e9);
+    text-decoration: none;
+    font-weight: 600;
+}
+.auth-container .auth-link a:hover {
+    text-decoration: underline;
+}

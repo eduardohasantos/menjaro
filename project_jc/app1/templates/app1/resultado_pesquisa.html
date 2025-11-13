@@ -35,7 +35,7 @@
           </div>
 
           <div class="noticia__acoes">
-              <form action="{% url 'app1:favoritar_noticia' noticia.pk %}" method="POST" style="display:inline;">
+              <form action="{% url 'app1:favoritar_noticia_view' noticia.pk %}" method="POST" style="display:inline;">
                 {% csrf_token %}
                 <button type="submit" class="btn-favorito {% if noticia.id in favoritos_ids %}favoritado{% endif %}" aria-label="Favoritar">
                   {% if noticia.id in favoritos_ids %}

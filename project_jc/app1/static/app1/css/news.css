@@ -1,9 +1,3 @@
-/* =======================================================
-   News Site · Lista e Grid de notícias
-   Escopo focado para não afetar o header/base
-   ======================================================= */
-
-/* ------------------ Tokens (CSS Variables) ------------------ */
 :root {
   /* superfícies e tipografia (light) */
   --news-bg: #ffffff;
