@@ -12,26 +12,27 @@
   <div class="container">
     <h1>Entrar</h1>
     <form method="post">
-      {% csrf_token %}
+  {% csrf_token %}
+  <input type="hidden" name="next" value="{% url 'app1:home' %}">
+  
+  <div class="campo">
+    {{ form.username.label_tag }}
+    {{ form.username }}
+    {% for error in form.username.errors %}
+      <p class="error">{{ error }}</p>
+    {% endfor %}
+  </div>
 
-      <div class="campo">
-        {{ form.username.label_tag }}
-        {{ form.username }}
-        {% for error in form.username.errors %}
-          <p class="error">{{ error }}</p>
-        {% endfor %}
-      </div>
+  <div class="campo">
+    {{ form.password.label_tag }}
+    {{ form.password }}
+    {% for error in form.password.errors %}
+      <p class="error">{{ error }}</p>
+    {% endfor %}
+  </div>
 
-      <div class="campo">
-        {{ form.password.label_tag }}
-        {{ form.password }}
-        {% for error in form.password.errors %}
-          <p class="error">{{ error }}</p>
-        {% endfor %}
-      </div>
-
-      <button type="submit">Entrar</button>
-    </form>
+  <button type="submit">Entrar</button>
+</form>
 
     <p class="link">
       Não tem uma conta? <a href="{% url 'register' %}">Cadastre-se</a>

@@ -75,13 +75,14 @@ def detalhe_noticia(request, pk):
             noticia.visualizacoes += 1
             noticia.usuarios_que_visitaram.add(request.user)
             noticia.save()
+        is_favorita = noticia.favoritos.filter(id=request.user.id).exists()
     else:
         noticia.visualizacoes += 1
         noticia.save()
+        is_favorita = False
 
     filtro = request.GET.get("filtro", "")
     comentarios = noticia.comentarios.all()
-
     if filtro == "recentes":
         comentarios = comentarios.order_by("-data_comentario")
     elif filtro == "antigos":
@@ -95,7 +96,9 @@ def detalhe_noticia(request, pk):
         "noticia": noticia,
         "comentarios": comentarios,
         "form_comentario": form_comentario,
+        "is_favorita": is_favorita,
     })
+
 
 
 @require_POST
