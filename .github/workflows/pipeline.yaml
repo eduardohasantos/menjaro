@@ -88,31 +88,31 @@ jobs:
           
           echo "🚀 Conectando ao servidor EC2..."
           ssh -o StrictHostKeyChecking=no -i private_key.pem ubuntu@18.118.34.118 '
-            set -e  # Para no primeiro erro
-            
-            echo "📂 Navegando para o projeto..."
-            cd projetos_2/menjaro
-            ls
-            
-            echo "⬇️ Atualizando código..."
-            git fetch --all
-            git reset --hard origin/main
+           set -e  # Para no primeiro erro
 
+          echo "📂 Navegando para o projeto..."
+          cd projetos_2/menjaro
+          ls
 
-            echo "📦 Ativando ambiente virtual..."
-            # sudo apt install -y python3.12-venv
-            # python3 -m venv venv
-            source venv/bin/activate
+          echo "⬇️ Atualizando código..."
+          git fetch --all
+          git reset --hard origin/main
 
-            # echo "🔧 Instalando dependências..."
-            # pip install -r requirements.txt
-            
-            # echo "🔄 Reiniciando aplicação e testando commit"
-            # screen -S deploy_session -X stuff $'\003'
-            # sleep 5
-            # screen -S deploy_session -X stuff 'python3 manage.py runserver 0.0.0.0:8000 &\n'
-            
-            echo "✅ Deploy concluído com sucesso!"
+          echo "📦 Ativando ambiente virtual..."
+          source venv/bin/activate
+
+          echo "🧹 Fechando sessões antigas do screen..."
+          # Fecha qualquer sessão antiga chamada deploy_session
+          screen -ls | grep deploy_session && screen -X -S deploy_session quit || echo "Nenhuma sessão antiga encontrada!"
+
+          echo "🧠 Criando nova sessão do screen..."
+          screen -dmS deploy_session bash -c 'python3 manage.py runserver 0.0.0.0:8000'
+
+          echo "🚀 Aplicação reiniciada com sucesso na porta 8000!"
+          echo "📌 Para visualizar:"
+          echo "     screen -r deploy_session"
+          echo "     ps -aux | grep python"
+
           '
           
           # Limpar chave SSH
