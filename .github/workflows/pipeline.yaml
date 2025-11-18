@@ -37,7 +37,7 @@ jobs:
       - name: Run Django tests
         run: |
           cd project_jc
-          python3 manage.py test app1.tests.AutomatedTests.test_favoritos
+          python3 manage.py test app1.tests.AutomatedTests.test_comentar
         env:
           PYTHONUNBUFFERED: 1
           DJANGO_SETTINGS_MODULE: project_jc.settings
