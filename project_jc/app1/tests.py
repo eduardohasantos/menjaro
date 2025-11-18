@@ -293,3 +293,11 @@ class AutomatedTests(StaticLiveServerTestCase):
         driver.find_element(By.ID, "search-toggle").click()
         campo_busca = driver.find_element(By.NAME, "q")
         campo_busca.send_keys("noticiaquenaoexiste" + Keys.RETURN)
+        
+    def test_comentar(self):
+        self.test_register()
+        
+        self.browser.find_element(By.XPATH, "//*[@id='noticia-1']/div[1]/a").click()
+        
+        self.browser.find_element(By.NAME, "texto").send_keys("jones manoel")
+        self.acoesPausadas(2).find_element(By.XPATH, "/html/body/main/div[1]/section/div[2]/form/button")
