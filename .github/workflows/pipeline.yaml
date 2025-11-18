@@ -95,7 +95,9 @@ jobs:
             ls
             
             echo "⬇️ Atualizando código..."
-            git pull origin main
+            git fetch --all
+            git reset --hard origin/main
+
 
             echo "📦 Ativando ambiente virtual..."
             # sudo apt install -y python3.12-venv
