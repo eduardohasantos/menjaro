@@ -107,10 +107,10 @@ jobs:
             echo "🔧 Instalando dependências..."
             pip install -r requirements.txt
             
-            echo "🔄 Reiniciando aplicação e testando commit"
-            screen -S deploy_session -X stuff $'\003'
-            sleep 5
-            screen -S deploy_session -X stuff 'python3 manage.py runserver 0.0.0.0:8000 &\n'
+            # echo "🔄 Reiniciando aplicação e testando commit"
+            # screen -S deploy_session -X stuff $'\003'
+            # sleep 5
+            # screen -S deploy_session -X stuff 'python3 manage.py runserver 0.0.0.0:8000 &\n'
             
             echo "✅ Deploy concluído com sucesso!"
           '
