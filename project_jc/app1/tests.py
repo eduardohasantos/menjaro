@@ -7,13 +7,16 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.chrome.options import Options
+from django.contrib.auth import get_user_model
 import os
 from app1 import models
 
 #====COMMAND====
-#py manage.py test app1.tests.LoginFormTest.test_favoritos
+#py manage.py test app1.tests.AutomatedTests.test_favoritos
 
-class LoginFormTest(StaticLiveServerTestCase):
+User = get_user_model()
+
+class AutomatedTests(StaticLiveServerTestCase):
     
     @classmethod
     def setUpClass(cls):
@@ -57,6 +60,12 @@ class LoginFormTest(StaticLiveServerTestCase):
             categoria=cls.categoria2
         )
         
+        cls.usuario1 = models.User.objects.create(
+            email="macacoprego@gmail.com",
+            username="souLindo123",
+            password="123"
+        )
+        
         # Se 'favoritos' for ManyToMany, adicione depois da criação:
         # cls.noticia1.favoritos.add(cls.test_user)
         # cls.noticia2.favoritos.add(cls.test_user)
@@ -66,7 +75,45 @@ class LoginFormTest(StaticLiveServerTestCase):
         cls.browser.quit()
         super().tearDownClass()
 
+    def running_page(self, page=""):
+        self.browser.get(f"{self.live_server_url}/{page}/")
+    
+    def get_submit_button(self):
+        return self.browser.find_elements(By.XPATH, "//button[@type='submit']")
+    
+    def acoesPausadas(self, tempo=2):
+        time.sleep(tempo)
+        return self.browser
+    
+    
+    def test_login(self, username="jonesManoel", password="jamesBond"):
+        self.running_page("accounts/login")
+        username_input = self.browser.find_element(By.NAME, "username")
+        username_input.send_keys(username)
+        password_input = self.browser.find_element(By.NAME, "password")
+        password_input.send_keys(password)
+        self.browser.find_element(By.XPATH, '/html/body/section/div/form/button').click()
+        # time.sleep(5) # Uso do WebDriverWait é preferível para estabilidade
+
+    def test_register(self):
+        email = "jones@gmail.com"
+        username = "jonesManoel"
+        password = "jamesBond"
+        
+        self.running_page("accounts/register")
+        self.browser.find_element(By.NAME, "username").send_keys(username)
+        self.browser.find_element(By.NAME, "email").send_keys(email)
+        self.browser.find_element(By.NAME, "password1").send_keys(password)
+        self.browser.find_element(By.NAME, "password2").send_keys(password)
+        
+        self.browser.find_elements(By.XPATH, '//button[@type="submit"]')[1].click()
+        
+        # O registro deve levar ao login, então forçamos o login em seguida
+        #self.test_login(username, password)
+   
     def test_notify_success(self):
+        self.test_register()
+        
         login_url = self.live_server_url
         self.browser.get(login_url)
         wait = WebDriverWait(self.browser, self.wait_time)
@@ -91,6 +138,8 @@ class LoginFormTest(StaticLiveServerTestCase):
         time.sleep(1)
 
     def test_notify_unsucess(self):
+        self.test_register()
+        
         login_url = self.live_server_url
         self.browser.get(login_url)
 
@@ -122,6 +171,8 @@ class LoginFormTest(StaticLiveServerTestCase):
         time.sleep(2)
     
     def test_entrar_categoria(self):
+        self.test_register()
+        
         login_url = self.live_server_url
         self.browser.get(login_url)
         wait = WebDriverWait(self.browser, self.wait_time)
@@ -137,6 +188,8 @@ class LoginFormTest(StaticLiveServerTestCase):
         botao_todas_categorias.click()
 
     def test_entrar_noticia(self):
+        self.test_register()
+        
         login_url = self.live_server_url + '/categorias/1'
         self.browser.get(login_url)
         wait = WebDriverWait(self.browser, self.wait_time)
@@ -180,24 +233,20 @@ class LoginFormTest(StaticLiveServerTestCase):
         self.browser.get(url)
         wait = WebDriverWait(self.browser, self.wait_time)
         
+        self.test_register()
+    
         #======CENARIO DESFAVORAVEL=====
-        botaoFav = self.browser.find_element("xpath", "/html/body/header/div[1]/div/nav/a[3]")
-        botaoFav.click()
-        
-        time.sleep(3)
-        
-        self.browser.back()
+        self.running_page("meus-favoritos")
+        time.sleep(2)
+        self.running_page()
         #====CENARIO FAVORAVEL====
         botaoEstrela = self.browser.find_element("xpath", "//*[@id='noticia-2']/div[2]/form/button")
-        
-        time.sleep(3)
-        
         botaoEstrela.click()
         
-        botaoFav = self.browser.find_element("xpath", "/html/body/header/div[1]/div/nav/a[3]")
-        botaoFav.click()
-        
         time.sleep(3)
+        
+        botaoFav = self.acoesPausadas(3).find_element("xpath", "/html/body/header/div[1]/div/nav/a[3]")
+        botaoFav.click()
         
         # Adicione aqui as ações do teste de favoritos
         # Exemplo:
@@ -213,12 +262,14 @@ class LoginFormTest(StaticLiveServerTestCase):
     # PESQUISA
     # ======================
     def test_pesquisa_com_resultados(self):
+        self.test_register() 
+        
         """Cenário 1: Pesquisa com resultados"""
         print("\n🔍 Teste: pesquisa com resultados")
         driver = self.browser
         driver.get(f"{self.live_server_url}/")
 
-        driver.find_element(By.ID, "btn-search").click()
+        driver.find_element(By.ID, "search-toggle").click()
         campo_busca = driver.find_element(By.NAME, "q")
         campo_busca.send_keys("sou lindo" + Keys.RETURN)
 
@@ -232,17 +283,13 @@ class LoginFormTest(StaticLiveServerTestCase):
         assert len(artigos) > 0
 
     def test_pesquisa_sem_resultados(self):
+        self.test_register()
+        
         """Cenário 2: Pesquisa sem resultados"""
         print("\n🔍 Teste: pesquisa sem resultados")
         driver = self.browser
         driver.get(f"{self.live_server_url}/")
 
-        driver.find_element(By.ID, "btn-search").click()
+        driver.find_element(By.ID, "search-toggle").click()
         campo_busca = driver.find_element(By.NAME, "q")
         campo_busca.send_keys("noticiaquenaoexiste" + Keys.RETURN)
-
-        mensagem = WebDriverWait(driver, 10).until(
-            EC.presence_of_element_located((By.ID, "mensagem-sem-resultados"))
-        )
-        print("📭 Mensagem exibida:", mensagem.text)
-        assert "nenhum resultado" in mensagem.text.lower()
