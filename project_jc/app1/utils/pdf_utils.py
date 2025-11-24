@@ -11,12 +11,18 @@ def gerar_pdf_noticia(noticia):
 
     y = altura - 2*cm
 
-    # TÍTULO
     p.setFont("Helvetica-Bold", 16)
-    p.drawString(2*cm, y, noticia.titulo)
-    y -= 1*cm
 
-    # CONTEÚDO
+    # aumenta o limite de caracteres por linha para aproveitar toda a página
+    titulo_linhas = wrap(noticia.titulo, 60)  
+
+    for linha in titulo_linhas:
+        p.drawString(2*cm, y, linha)
+        y -= 0.8*cm  # mais espaçamento no título
+
+    y -= 0.5*cm  # espaço extra após o título
+
+    # ===== CONTEÚDO =====
     p.setFont("Helvetica", 12)
     linhas = wrap(noticia.conteudo, 90)
 
