@@ -23,5 +23,6 @@ urlpatterns = [
 
     path('comentario/<int:comentario_id>/editar/', views.editar_comentario, name='editar_comentario'),
     path('comentario/<int:comentario_id>/excluir/', views.excluir_comentario, name='excluir_comentario'),
+    path('noticia/<int:pk>/pdf/', views.baixar_pdf_noticia, name="baixar_pdf_noticia"),
 
 ]
