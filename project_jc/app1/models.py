@@ -17,6 +17,7 @@ class Noticia(models.Model):
     categoria = models.ForeignKey(
         Categoria, on_delete=models.SET_NULL, null=True, blank=True, related_name='noticias'
     )
+    imagem = models.ImageField(upload_to='noticias/', blank=True, null=True)
     visualizacoes = models.PositiveIntegerField(default=0)
     
     favoritos = models.ManyToManyField(

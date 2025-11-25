@@ -8,6 +8,8 @@ from django.views.decorators.http import require_POST
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login
+from django.http import FileResponse
+from .utils.pdf_utils import gerar_pdf_noticia
 
 class HomeView(View):
     def get(self, request):
@@ -197,3 +199,11 @@ def excluir_comentario(request, comentario_id):
     else:
         messages.error(request, "Você não tem permissão para excluir este comentário.")
     return redirect('app1:detalhe_noticia', pk=comentario.noticia.pk)
+
+
+def baixar_pdf_noticia(request, pk):
+    noticia = get_object_or_404(Noticia, pk=pk)
+    pdf_buffer = gerar_pdf_noticia(noticia)
+
+    filename = f"noticia_{noticia.id}.pdf"
+    return FileResponse(pdf_buffer, as_attachment=True, filename=filename)
