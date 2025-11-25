@@ -239,6 +239,7 @@ class AutomatedTests(StaticLiveServerTestCase):
         self.running_page("meus-favoritos")
         time.sleep(2)
         self.running_page()
+        
         #====CENARIO FAVORAVEL====
         botaoEstrela = self.browser.find_element("xpath", "//*[@id='noticia-2']/div[2]/form/button")
         botaoEstrela.click()
