@@ -4,6 +4,8 @@ from .views import (
     categoria_filtro, FavoritosListView, favoritar_noticia_view,
     adicionar_comentario, editar_comentario, excluir_comentario
 )
+from django.conf import settings
+from django.conf.urls.static import static
 from . import views
 app_name = "app1"
 
@@ -26,3 +28,6 @@ urlpatterns = [
     path('noticia/<int:pk>/pdf/', views.baixar_pdf_noticia, name="baixar_pdf_noticia"),
 
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

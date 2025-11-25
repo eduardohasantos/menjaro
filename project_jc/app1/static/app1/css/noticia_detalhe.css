@@ -521,3 +521,17 @@
     box-shadow: 0 6px 16px rgba(0,0,0,.35);
   }
 }
+
+.imagem-noticia {
+    width: 100%;
+    max-width: 900px;   
+    margin: 0 auto;
+}
+
+.imagem-noticia-img {
+    width: 100%;
+    height: 400px;       
+    object-fit: cover;    
+    border-radius: 10px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+}

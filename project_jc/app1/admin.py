@@ -21,24 +21,22 @@ class ComentarioNaNoticia(admin.TabularInline):
 
 @admin.register(Noticia)
 class NoticiaAdmin(admin.ModelAdmin):
-
     list_display = ('titulo', 'categoria', 'data_publicacao', 'visualizacoes')
     list_filter = ('categoria', 'data_publicacao')
     search_fields = ('titulo', 'conteudo')
     date_hierarchy = 'data_publicacao'
     readonly_fields = ('data_publicacao', 'visualizacoes')
-    inlines = [ComentarioNaNoticia] 
-    
+    inlines = [ComentarioNaNoticia]
 
-    fieldsets = (
-        (None, {
-            'fields': ('titulo', 'conteudo', 'categoria')
-        }),
-        ('Dados do Sistema', { 
-            'fields': ('data_publicacao', 'visualizacoes'),
-            'classes': ('collapse',)
-        }),
-    )
+fieldsets = (
+    (None, {
+        'fields': ('titulo', 'conteudo', 'categoria', 'imagem')
+    }),
+    ('Dados do Sistema', {
+        'fields': ('data_publicacao', 'visualizacoes'),
+        'classes': ('collapse',)
+    }),
+)
 
 @admin.register(NewsletterSubscription)
 class NewsletterAdmin(admin.ModelAdmin):

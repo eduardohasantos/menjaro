@@ -12,7 +12,6 @@
       <i class="bi bi-file-earmark-pdf"></i> Baixar PDF
     </a>
 
-
     <div class="d-flex justify-content-between align-items-center flex-wrap">
       <span class="text-muted mb-2">Publicado em: {{ noticia.data_publicacao|date:"d/m/Y H:i" }}</span>
 
@@ -36,6 +35,13 @@
   </header>
 
   <hr>
+
+
+  {% if noticia.imagem %}
+  <div class="imagem-noticia my-4 text-center">
+    <img class="imagem-noticia-img" src="{{ noticia.imagem.url }}" alt="Imagem da notícia" class="img-fluid rounded shadow-sm">
+  </div>
+  {% endif %}
 
   <div class="controles-fonte mb-3">
     <strong>Acessibilidade:</strong>
