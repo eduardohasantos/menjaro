@@ -302,3 +302,11 @@ class AutomatedTests(StaticLiveServerTestCase):
         
         self.browser.find_element(By.NAME, "texto").send_keys("jones manoel")
         self.acoesPausadas(2).find_element(By.XPATH, "/html/body/main/div[1]/section/div[2]/form/button")
+
+    def baixar_pdf(self):
+        self.test_register()
+        
+        self.acoesPausadas(3).find_element(By.XPATH, "//*[@id='noticia-1']/div[1]/a").click()
+        
+        botao_pdf = self.acoesPausadas(2).find_element(By.CLASS_NAME, "btn-download-pdf")
+        botao_pdf.click()
