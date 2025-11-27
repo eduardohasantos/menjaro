@@ -14,7 +14,7 @@ jobs:
     
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v3 
       
       - name: Set up Python
         uses: actions/setup-python@v4
@@ -37,7 +37,9 @@ jobs:
       - name: Run Django tests
         run: |
           cd project_jc
-          python3 manage.py test app1.tests.AutomatedTests.test_pesquisa_com_resultados
+          python3 manage.py migrate
+          python3 manage.py makemigrations
+          python3 manage.py test app1.tests.AutomatedTests.test_baixar_pdf
         env:
           PYTHONUNBUFFERED: 1
           DJANGO_SETTINGS_MODULE: project_jc.settings
@@ -110,7 +112,7 @@ jobs:
 
           echo "🚀 Aplicação reiniciada com sucesso na porta 8000!"
           echo "📌 Para visualizar:"
-          echo "     screen -r deploy_session"
+          echo "     screen -r deploy_session"  
           echo "     ps -aux | grep python"
 
           '
