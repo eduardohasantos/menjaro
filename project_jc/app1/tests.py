@@ -314,3 +314,27 @@ class AutomatedTests(StaticLiveServerTestCase):
         
         self.browser.find_element(By.NAME, "texto").send_keys("jones manoel")
         self.acoesPausadas(2).find_element(By.XPATH, "/html/body/main/div[1]/section/div[2]/form/button")
+    
+    def test_baixar_pdf(self):
+        self.test_register()
+        
+        self.acoesPausadas(3).find_element(By.XPATH, "//*[@id='noticia-1']/div[1]/a").click()
+        
+        botao_pdf = self.acoesPausadas(2).find_element(By.CLASS_NAME, "btn-download-pdf")
+        botao_pdf.click()
+        
+    def testE2E_COMPLETO(self):
+        self.isE2E = True
+        
+        self.test_register()
+        #self.test_notify_success()
+        #self.test_notify_unsucess()
+        #self.test_entrar_categoria()
+        #self.test_entrar_noticia()
+        #self.test_aumentar_fonte()
+        #self.test_diminuir_fonte()
+        #self.test_favoritos()
+        self.test_pesquisa_com_resultados()
+        self.test_pesquisa_sem_resultados()
+        self.test_comentar()
+        self.test_baixar_pdf()
