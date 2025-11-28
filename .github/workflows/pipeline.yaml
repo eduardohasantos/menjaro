@@ -104,12 +104,10 @@ jobs:
           source venv/bin/activate
           cd project_jc
 
-          echo "🧹 Fechando sessões antigas do screen..."
-          # Fecha qualquer sessão antiga chamada deploy_session
-          screen -ls | grep deploy_session && screen -X -S deploy_session quit || echo "Nenhuma sessão antiga encontrada!"
-
-          echo "🧠 Criando nova sessão do screen..."
-          screen -dmS deploy_session bash -c 'python3 manage.py runserver 0.0.0.0:8000'
+          python3 manage.py makemigrations 
+          python3 manage.py migrate
+          sudo lsof -t -i:8000 | xargs -r sudo kill -9
+          nohup python3 manage.py runserver 0.0.0.0:8000 > django.log 2>&1 &
 
           echo "🚀 Aplicação reiniciada com sucesso na porta 8000!"
           echo "📌 Para visualizar:"
