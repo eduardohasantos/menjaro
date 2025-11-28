@@ -93,7 +93,7 @@ jobs:
            set -e  # Para no primeiro erro
 
           echo "📂 Navegando para o projeto..."
-          cd projetos_2/menjaro/project_jc
+          cd projetos_2/menjaro
           ls
 
           echo "⬇️ Atualizando código..."
@@ -102,6 +102,7 @@ jobs:
 
           echo "📦 Ativando ambiente virtual..."
           source venv/bin/activate
+          cd project_jc
 
           echo "🧹 Fechando sessões antigas do screen..."
           # Fecha qualquer sessão antiga chamada deploy_session
