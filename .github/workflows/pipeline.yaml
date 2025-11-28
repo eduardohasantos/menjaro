@@ -88,36 +88,35 @@ jobs:
           
           chmod 600 private_key.pem
           
-           PROJECT_DIR="/home/ubuntu/projetos_2/menjaro"
+          echo "🚀 Conectando ao servidor EC2..."
+          ssh -o StrictHostKeyChecking=no -i private_key.pem ubuntu@18.118.34.118 '
+           set -e  # Para no primeiro erro
 
           echo "📂 Navegando para o projeto..."
-          cd "$PROJECT_DIR"
+          cd projetos_2/menjaro/project_jc
+          ls
 
           echo "⬇️ Atualizando código..."
           git fetch --all
           git reset --hard origin/main
 
-          echo "📦 Instalando dependências..."
+          echo "📦 Ativando ambiente virtual..."
           source venv/bin/activate
-          pip install -r requirements.txt --quiet
-
-          echo "🗄️ Rodando migrações..."
-          cd "$PROJECT_DIR/project_jc"
-          python3 manage.py migrate --noinput
 
           echo "🧹 Fechando sessões antigas do screen..."
-          screen -ls | grep deploy_session && screen -X -S deploy_session quit || true
+          # Fecha qualquer sessão antiga chamada deploy_session
+          screen -ls | grep deploy_session && screen -X -S deploy_session quit || echo "Nenhuma sessão antiga encontrada!"
 
           echo "🧠 Criando nova sessão do screen..."
-          screen -dmS deploy_session bash -c "
-            cd $PROJECT_DIR/project_jc
-            source $PROJECT_DIR/venv/bin/activate
-            echo '🚀 Iniciando Django em \$(date)' >> /tmp/django.log
-            python3 manage.py runserver 0.0.0.0:8000 2>&1 | tee -a /tmp/django.log
-          "
+          screen -dmS deploy_session bash -c 'python3 manage.py runserver 0.0.0.0:8000'
 
-          echo "⏳ Aguardando inicialização..."
-          sleep 3
+          echo "🚀 Aplicação reiniciada com sucesso na porta 8000!"
+          echo "📌 Para visualizar:"
+          echo "     screen -r deploy_session"  
+          echo "     ps -aux | grep python"
+
+          '
+          
           # Limpar chave SSH
           rm -f private_key.pem
           
