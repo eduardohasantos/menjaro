@@ -102,6 +102,9 @@ jobs:
 
           echo "📦 Ativando ambiente virtual..."
           source venv/bin/activate
+          
+          echo "Verificando libs do projeto"
+          pip install -r requirements.txt
           cd project_jc
 
           python3 manage.py makemigrations 
