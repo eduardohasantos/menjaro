@@ -300,11 +300,23 @@ class AutomatedTests(StaticLiveServerTestCase):
         if not self.isE2E:
             self.test_register()
         
-        self.browser.find_element(By.XPATH, "//*[@id='noticia-1']/div[1]/a").click()
+        wait = WebDriverWait(self.browser, self.wait_time)
+    
+        self.running_page() 
+        
+        link_noticia = wait.until(
+            EC.element_to_be_clickable((By.XPATH, "//*[@id='noticia-1']/div[1]/a"))
+        )
+        
+        link_noticia.click()
         
         self.browser.find_element(By.NAME, "texto").send_keys("jones manoel")
-        self.acoesPausadas(2).find_element(By.XPATH, "/html/body/main/div[1]/section/div[2]/form/button")
-    
+        
+        botao_comentar = wait.until(
+            EC.element_to_be_clickable((By.XPATH, "/html/body/main/div[1]/section/div[2]/form/button"))
+        )
+        botao_comentar.click()
+        
     def test_baixar_pdf(self):
         if not self.isE2E:
             self.test_register() 
