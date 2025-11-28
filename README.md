@@ -60,6 +60,22 @@ Projeto desenvolvido pelos alunos da disciplina **Projetos 2**.
 [![Docs](https://img.shields.io/badge/Docs-4285F4.svg?style=for-the-badge&logo=googledocs&logoColor=white)](https://docs.google.com/document/d/135Kd3Zr2Xbshk2W-SDKgKyMash7cN8LBxXVm6NHl1Qs/edit?usp=sharing)
 [![Jira](https://img.shields.io/badge/jira-%230A0FFF.svg?style=for-the-badge&logo=jira&logoColor=white)](https://cesarfds.atlassian.net/jira/software/projects/P2G13/boards/34?atlOrigin=eyJpIjoiZWRlNzJkNTEwZGM5NDgzNThmM2Y1YmY0YzczZmZkY2UiLCJwIjoiaiJ9)
 
+
+### Screencast - CI/CD Build, Deploy e Testes automatizados
+  <p align="Left" style="">
+  <a href="https://youtu.be/4hW6ULAKtUg">
+    <img src="https://img.shields.io/badge/screencast-BF9056?style=for-the-badge&logo=youtube&logoColor=white" height="35px"/></a>
+  </p>
+
+### Screencast - Testes automatizados E2E (Selenium)
+  <p align="Left" style="">
+  <a href="### Screencast - CI/CD Build, Deploy e Testes automatizados
+  <p align="Left" style="">
+  <a href="https://youtu.be/EOeXTvISA4M">
+    <img src="https://img.shields.io/badge/screencast-BF9056?style=for-the-badge&logo=youtube&logoColor=white" height="35px"/></a>
+  </p>
+
+
 ## Link do deploy
 
 http://18.118.34.118:8000
