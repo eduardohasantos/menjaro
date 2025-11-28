@@ -112,47 +112,35 @@ class AutomatedTests(StaticLiveServerTestCase):
         # O registro deve levar ao login, então forçamos o login em seguida
         #self.test_login(username, password)
    
-    def test_notify_success(self):
+    def test_notify_success(self): 
         if not self.isE2E:
-            self.test_register()
-        
-        login_url = self.live_server_url
+            self.test_register() 
+
+        login_url = self.live_server_url 
         self.browser.get(login_url)
+
         wait = WebDriverWait(self.browser, self.wait_time)
-
-        botao_notificacao = wait.until(
-            EC.element_to_be_clickable((By.ID, 'btn-bell'))
-        )
-        botao_notificacao.click()
-
-        time.sleep(1)
-
+        
         email_assinatura = wait.until(
             EC.presence_of_element_located((By.ID, 'id_email'))
         )
         email_assinatura.send_keys("Teste@gmail.com")
-
+        
         botao_assinar = wait.until(
             EC.element_to_be_clickable((By.CLASS_NAME, 'btn-primary'))
         )
         botao_assinar.click()
 
-        time.sleep(1)
-
-    def test_notify_unsucess(self):
+        time.sleep(2)
+        
+    def test_notify_unsucess(self): # tem o objetivo de simular um usuário se cadastrando e tentando assinar a notificação com um e-mail inválido
         if not self.isE2E:
-            self.test_register()
+            self.test_register()   
         
         login_url = self.live_server_url
         self.browser.get(login_url)
 
         wait = WebDriverWait(self.browser, self.wait_time)
-        botao_notificacao = wait.until(
-            EC.element_to_be_clickable((By.ID, 'btn-bell'))
-        )
-        botao_notificacao.click()
-
-        time.sleep(2)
 
         email_assinatura = wait.until(
             EC.presence_of_element_located((By.ID, 'id_email'))
@@ -173,41 +161,42 @@ class AutomatedTests(StaticLiveServerTestCase):
         
         time.sleep(2)
     
-    def test_entrar_categoria(self):
+    def test_entrar_categoria(self): #CERTO
         if not self.isE2E:
-            self.test_register()
-        
+            self.test_register() 
+     
         login_url = self.live_server_url
         self.browser.get(login_url)
+        
         wait = WebDriverWait(self.browser, self.wait_time)
         
-        botao_categoria = wait.until(
+        botao_todas_categorias = wait.until(
             EC.element_to_be_clickable((By.ID, 'btn-cat'))
         )
-        botao_categoria.click()
-        
-        botao_todas_categorias = wait.until(
-            EC.element_to_be_clickable((By.XPATH, '/html/body/main/div/ul/li[2]/a'))
-        )
         botao_todas_categorias.click()
+        
+        botao_categoria_especifica = wait.until(
+            EC.element_to_be_clickable((By.XPATH, "//ul[@class='categorias-list']//a"))
+        )
+        botao_categoria_especifica.click()
+
+        time.sleep(2)
 
     def test_entrar_noticia(self):
         if not self.isE2E:
-            self.test_register()
+            self.test_register() 
         
-        login_url = self.live_server_url + '/categorias/1'
+        login_url = self.live_server_url 
         self.browser.get(login_url)
+
         wait = WebDriverWait(self.browser, self.wait_time)
         
-        botao_noticia = wait.until(
-            EC.element_to_be_clickable((By.ID, 'noticia_1'))
+        botao_ler_mais = wait.until(
+            EC.element_to_be_clickable((By.XPATH, "//article[@id='noticia-1']//a[contains(@class,'ler__mais')]"))
         )
-        botao_noticia.click()
-        
-        botao_noticia_principal = wait.until(
-            EC.element_to_be_clickable((By.XPATH, '/html/body/main/section/article/div[1]/a'))
-        )
-        botao_noticia_principal.click()
+        botao_ler_mais.click()
+
+        time.sleep(2)
     
     def test_aumentar_fonte(self):
         login_url = self.live_server_url + '/noticia/1/'
@@ -305,8 +294,9 @@ class AutomatedTests(StaticLiveServerTestCase):
         campo_busca = driver.find_element(By.NAME, "q")
         campo_busca.send_keys("noticiaquenaoexiste" + Keys.RETURN)
         
-    def test_comentar(self):
+        self.running_page()
         
+    def test_comentar(self):
         if not self.isE2E:
             self.test_register()
         
@@ -316,9 +306,9 @@ class AutomatedTests(StaticLiveServerTestCase):
         self.acoesPausadas(2).find_element(By.XPATH, "/html/body/main/div[1]/section/div[2]/form/button")
     
     def test_baixar_pdf(self):
-        self.test_register()
-        
-        self.acoesPausadas(3).find_element(By.XPATH, "//*[@id='noticia-1']/div[1]/a").click()
+        if not self.isE2E:
+            self.test_register() 
+            self.acoesPausadas(3).find_element(By.XPATH, "//*[@id='noticia-1']/div[1]/a").click()
         
         botao_pdf = self.acoesPausadas(2).find_element(By.CLASS_NAME, "btn-download-pdf")
         botao_pdf.click()
@@ -327,13 +317,13 @@ class AutomatedTests(StaticLiveServerTestCase):
         self.isE2E = True
         
         self.test_register()
-        #self.test_notify_success()
-        #self.test_notify_unsucess()
-        #self.test_entrar_categoria()
-        #self.test_entrar_noticia()
-        #self.test_aumentar_fonte()
-        #self.test_diminuir_fonte()
-        #self.test_favoritos()
+        self.test_notify_success()
+        self.test_notify_unsucess()
+        self.test_entrar_categoria()
+        self.test_entrar_noticia()
+        self.test_aumentar_fonte()
+        self.test_diminuir_fonte()
+        self.test_favoritos()
         self.test_pesquisa_com_resultados()
         self.test_pesquisa_sem_resultados()
         self.test_comentar()

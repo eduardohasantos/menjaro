@@ -39,7 +39,7 @@ jobs:
           cd project_jc
           python3 manage.py migrate
           python3 manage.py makemigrations
-          python3 manage.py test app1.tests.AutomatedTests.test_baixar_pdf
+          python3 manage.py test app1.tests.AutomatedTests.testE2E_COMPLETO
         env:
           PYTHONUNBUFFERED: 1
           DJANGO_SETTINGS_MODULE: project_jc.settings
