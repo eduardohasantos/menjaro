@@ -101,3 +101,4 @@ Você pode ajudar de diversas formas:
 Dúvidas, sugestões ou problemas? Entre em contato com o time:
 
 - [**Arthur Coelho**](https://github.com/ArthurMatias57) | [LinkedIn](https://www.linkedin.com/in/arthur-c-m-20079a335/) | E-mail:acmm@cesar.school
+- [**Miguel Tojal**](https://github.com/mtojald) | [LinkedIn](https://www.linkedin.com/in/mtojald/) | E-mail:mtd@cesar.school
