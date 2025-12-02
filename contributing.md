@@ -26,7 +26,7 @@ Você pode ajudar de diversas formas:
 2. **Clone o fork localmente**  
    ```bash
     git clone https://github.com/eduardohasantos/menjaro.git
-   cd intellifit
+   cd menjaro
    ```
 
 3. **Crie uma nova branch para suas alterações**  
