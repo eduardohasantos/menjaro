@@ -48,9 +48,15 @@ Nossa equipe desenvolveu os arquivos `models.py` e `admin.py` do projeto Django.
 </details>
 
 
-  # 🤝 Programação em Par
+🤝 Programação em Par
 
-Para otimizar o desenvolvimento e garantir entregas de qualidade, decidimos organizar nossa equipe em duplas, com cada uma responsável por uma história específica. Essa abordagem ajudou a manter o foco em tarefas claras e divididas, aumentando a eficiência no desenvolvimento de cada funcionalidade e permitindo que cada dupla se aprofundasse nas necessidades específicas de cada história. As sessões de pareamento aconteceram via Discord, com compartilhamento de tela, o que facilitou a comunicação instantânea e a revisão de código em tempo real. **Miguel Tojal e Eduardo Henrique**, por exemplo, ficaram responsáveis por uma das histórias e, com a ajuda do pareamento, conseguiram revisar o código em tempo real, discutindo e ajustando a implementação rapidamente. **Felipe Braz, Vinicius Gomes e Rodrigo Paiva** trabalharam em outra história, também compartilhando suas telas e resolvendo dúvidas assim que surgiam, o que ajudou a manter o fluxo de trabalho ágil. **Marcelo e Arthur Coelho**, contribuíram com suas experiências e soluções criativas, agregando ainda mais valor à colaboração entre todos. Esse modelo de trabalho, com colaboração constante, não só acelerou o processo de desenvolvimento, mas também reduziu o retrabalho, já que as dúvidas eram resolvidas na hora e todos estavam alinhados com as decisões do projeto. A troca contínua de ideias e a revisão mútua de código garantiram uma qualidade superior no produto final. Com todos os membros colaborando de maneira tão integrada, conseguimos entregar um código mais robusto, sem erros, e perfeitamente alinhado com as expectativas do cliente, elevando a entrega final.
+Para melhorar o ritmo do desenvolvimento e assegurar entregas de qualidade, organizamos a equipe em duplas, cada uma responsável por uma história do projeto. Essa estrutura permitiu foco, divisão clara de tarefas e um aprofundamento maior nas necessidades específicas de cada funcionalidade.
+
+As sessões de pareamento aconteceram pelo Discord, com compartilhamento de tela, possibilitando comunicação instantânea e revisão de código simultânea. Miguel Tojal e Eduardo Henrique, por exemplo, ficaram responsáveis por uma das histórias e, graças ao trabalho em par, puderam revisar e ajustar o código rapidamente conforme avançavam na implementação. Da mesma forma, Felipe Braz, Vinicius Gomes e Rodrigo Paiva atuaram juntos em outra história, resolvendo dúvidas em tempo real e mantendo o fluxo de trabalho contínuo.
+
+Marcelo e Arthur Coelho também contribuíram de forma significativa, trazendo suas experiências e soluções criativas, o que enriqueceu ainda mais a colaboração geral do time.
+
+Esse formato de trabalho colaborativo não apenas acelerou o desenvolvimento, mas também reduziu retrabalho, já que todas as decisões eram discutidas e alinhadas durante o processo. A troca constante de ideias e a revisão mútua do código elevaram a qualidade final do produto.
 
 ## 👥 Equipe
 
