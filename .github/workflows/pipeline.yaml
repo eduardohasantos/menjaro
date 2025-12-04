@@ -64,7 +64,7 @@ jobs:
 
       - name: Deploy to EC2
         run: |
-          ssh -i ~/.ssh/ec2.key $EC2_USER@$EC2_HOST '  
+            '  
             echo "🚀 Conectando ao servidor EC2..."
             ssh -o StrictHostKeyChecking=no -i ec2.key ubuntu@18.118.34.118 '
             set -e  # Para no primeiro erro
