@@ -63,9 +63,8 @@ jobs:
           echo "StrictHostKeyChecking no" > ~/.ssh/config
 
       - name: Deploy to EC2
-        run: |
-          
-          ssh -o StrictHostKeyChecking=no -i ec2.key ubuntu@18.118.34.118 '
+        run: |  
+          ssh -o StrictHostKeyChecking=no -i ~/.ssh/ec2.key ubuntu@18.118.34.118 '
             echo "🚀 Conectando ao servidor EC2..."
             set -e  # Para no primeiro erro
 
