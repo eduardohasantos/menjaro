@@ -59,7 +59,7 @@ jobs:
           # Criar arquivo com chave SSH
           mkdir -p ~/.ssh
           echo "${{ secrets.DEPLOY_KEY }}" > ~/.ssh/ec2.key
-          chmod 600 ~/.ssh/ec2.key
+          chmod 400 ~/.ssh/ec2.key
           echo "StrictHostKeyChecking no" > ~/.ssh/config
 
       - name: Deploy to EC2
