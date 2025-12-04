@@ -49,80 +49,57 @@ jobs:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     
+    
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-      
-      - name: Deploy to EC2
+    
+      - name: Configure SSH key
         run: |
           # Criar arquivo com chave SSH
-          cat > private_key.pem << 'EOF'
-          -----BEGIN RSA PRIVATE KEY-----
-          MIIEogIBAAKCAQEAuSU/iRK7BQdCqz9V9mHbYDtTo5VSl4hZqjRFsAzr4tOA6uyT
-          ZXpnwgXDZecTyu1hn2ayFtpm3Da/MoraWetLwj7q0wVrltMxIOFRFHsw227Fk8rh
-          dmjm5mdJghJ0xauNLxlV4kVMSDQ5b3rqFNG1tAbKdCC4BTVuGWpGyCGdm0EkpiPE
-          GgsXlNUIkr3LKrzMKEe8zfGcokx+34MAsVrNqy37ysYMxem8AnfENGbvP7V4ZLoq
-          1kB2CEWlzamV/oLf6Z8bGpconWDi9kyZqKoKqdRIHN5V6SJj/45Kz6XwsepeP9pN
-          FtfnIaSECCvhH/v2/OAJpNahRN69UOsfGqKvRQIDAQABAoH/b1/42HxsBJpZgKqZ
-          C53SWhFWPxGUnZNoXPsU8NLVE54n7yphgKohwJW29ZYMUgZ6s2kTuKupNM+6NK1S
-          rMTezfsLR+X60sA4zY69N5TjzxzTvhRNjO2N+QwpLBXuKPsJ80tKXtNREB5abrWC
-          GwQMSj/LihAkov2BPciwy7NtG/cOJcA/GB4co3SYJ84p3szgpu5axYS17LWnAljG
-          uL67T5Kz/Sq4obqLLXPA7Pi9cL0Yw+25t8VbG3J2rYJi6f/+Jz+YlhKtLm3blzt5
-          QGVh1eEIOZ7kvKQ/ifyhp3qWOO/t9KmZxKi9YBx1H59QtVRko3ecVPV/HaAEn5kq
-          E7yBAoGBANq7fgkDfU6Xo7wtNSEQwUC0vqUr8AyOfCkmPIe6ZmeKGCYibS4M6GyI
-          nNWMS+6mER/EIHvb2Fu40zkihtGCvUwTP8O0V+TNXtnChLoA/Ah7Pl7V3ZMW0SVh
-          Ag+rXoPeZyG/oB3jAsegk4fWgqvE2qwm8Fj5+mTsJ9daw8/5FOn1AoGBANiwyaW8
-          LrB1maN8JGTSj+lz2okqh2kbbUw3nUVRhETKIxw0Mx4562iRIob2sSsi0f+vhOto
-          9UdlYoO7zeGzpiXeSHw+5rlqbgXYM9GNTIob3ZyjAjnqXOfgpouH1fxIquFAEwaX
-          JBIl4rel5FK6eTpD4fok7STzHBQYCb1ijM4RAoGBAIQ4UjegpF6dy5w0t6kFN8yl
-          dZjitnjgqK03L9/cDYsJLw/eP6FWrCjva96qsDvSpwdMx1YXzvGjCAvBkz2Silsy
-          R5lFqtvkSTHZI+JMNg3qcglhvk7rvAGcYmKWdMvB5RXBgEiQsV1687NpOBQdKxJl
-          d2RRt8rJ9kt30mYlaz8BAoGAQ7RxPPygZfhIqgE26d20o4/UX3lPV/L+4oqZ9De1
-          KT0zXTOeKTqVqFV4wUzBLKYzkT1JPbjMsqMl9d0vRe844aojYdbRhmuPtvnHrxkE
-          Kj7srm1sW6YzoyvZPc2SecJGyhyYFT4SQi1eOl12CrdC+4aMS/lPs3TWeBzOpkLt
-          ldECgYEAyLDoiUcyHW5VouyNjrKgq29Ouw9MMaS4R3dEWEgZG0bMzpKlVPnRKkjl
-          Iqam/O6RrIoZ0Gx5NDtFi2zO36mefW3cjfRPvK4Xp7W0bFU5qi/iYw6RYgveIo2a
-          7eldatCjbpLtrO8EM8lwzO3bQCttv2i+2TAW2mkxV5QYQ3StdCw=
-          -----END RSA PRIVATE KEY-----
-          EOF
-          
-          chmod 600 private_key.pem
-          
-          echo "🚀 Conectando ao servidor EC2..."
-          ssh -o StrictHostKeyChecking=no -i private_key.pem ubuntu@18.118.34.118 '
-           set -e  # Para no primeiro erro
+          mkdir -p ~/.ssh
+          echo "${{ secrets.DEPLOY_KEY }}" > ~/.ssh/ec2.key
+          chmod 600 ~/.ssh/ec2.key
+          echo "StrictHostKeyChecking no" > ~/.ssh/config
 
-          echo "📂 Navegando para o projeto..."
-          cd projetos_2/menjaro
-          ls
+      - name: Deploy to EC2
+        run: |
+          ssh -i ~/.ssh/ec2.key $EC2_USER@$EC2_HOST '  
+            echo "🚀 Conectando ao servidor EC2..."
+            ssh -o StrictHostKeyChecking=no -i ec2.key ubuntu@18.118.34.118 '
+            set -e  # Para no primeiro erro
 
-          echo "⬇️ Atualizando código..."
-          git fetch --all
-          git reset --hard origin/main
+            echo "📂 Navegando para o projeto..."
+            cd projetos_2/menjaro
+            ls
 
-          echo "📦 Ativando ambiente virtual..."
-          source venv/bin/activate
-          
-          echo "Verificando libs do projeto"
-          pip install -r requirements.txt
-          cd project_jc
+            echo "⬇️ Atualizando código..."
+            git fetch --all
+            git reset --hard origin/main
 
-          python3 manage.py makemigrations 
-          python3 manage.py migrate
-          sudo lsof -t -i:8000 | xargs -r sudo kill -9
-          nohup python3 manage.py runserver 0.0.0.0:8000 > django.log 2>&1 &
+            echo "📦 Ativando ambiente virtual..."
+            source venv/bin/activate
+            
+            echo "Verificando libs do projeto"
+            pip install -r requirements.txt
+            cd project_jc
 
-          echo "🚀 Aplicação reiniciada com sucesso na porta 8000!"
-          echo "📌 Para visualizar:"
-          echo "     screen -r deploy_session"  
-          echo "     ps -aux | grep python"
+            python3 manage.py makemigrations 
+            python3 manage.py migrate
+            sudo lsof -t -i:8000 | xargs -r sudo kill -9
+            nohup python3 manage.py runserver 0.0.0.0:8000 > django.log 2>&1 &
 
-          '
-          
-          # Limpar chave SSH
-          rm -f private_key.pem
-          
-          echo "🎉 Pipeline finalizada!"
+            echo "🚀 Aplicação reiniciada com sucesso na porta 8000!"
+            echo "📌 Para visualizar:"
+            echo "     screen -r deploy_session"  
+            echo "     ps -aux | grep python"
+
+            '
+            
+            # Limpar chave SSH
+            rm -f private_key.pem
+            
+            echo "🎉 Pipeline finalizada!"
       
       - name: Verify deployment
         run: |
