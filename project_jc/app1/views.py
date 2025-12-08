@@ -10,6 +10,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login
 from django.http import FileResponse
 from .utils.pdf_utils import gerar_pdf_noticia
+from django.core.mail import send_mail
+from django.conf import settings
 
 class HomeView(View):
     def get(self, request):
@@ -30,15 +32,33 @@ class HomeView(View):
 class SubscribeView(View):
     def post(self, request):
         form = SubscriptionForm(request.POST)
+
         if form.is_valid():
             from .models import NewsletterSubscription
+
             sub, created = NewsletterSubscription.objects.get_or_create(
                 email=form.cleaned_data["email"]
             )
+
             if created:
+
+                send_mail(
+                    subject="Confirmação da Newsletter",
+                    message=(
+                        "Olá!\n\n"
+                        "Obrigado por se inscrever na nossa newsletter.\n"
+                        "Agora você receberá nossas novidades em primeira mão!\n\n"
+                        "Atenciosamente,\nEquipe JC"
+                    ),
+                    from_email=settings.EMAIL_HOST_USER,
+                    recipient_list=[sub.email],
+                    fail_silently=False,
+                )
+
                 messages.success(request, f"Assinatura confirmada para {sub.email}.")
             else:
                 messages.info(request, "Este e-mail já está inscrito.")
+
             return redirect("app1:home")
 
         messages.error(request, "Email já cadastrado")
