@@ -41,7 +41,7 @@ class SubscribeView(View):
                 messages.info(request, "Este e-mail já está inscrito.")
             return redirect("app1:home")
 
-        messages.error(request, "Verifique o e-mail informado.")
+        messages.error(request, "Email já cadastrado")
         noticias = Noticia.objects.order_by('-data_publicacao')[:10]
         return render(request, "app1/home.html", {"form": form, 'noticias': noticias})
 
