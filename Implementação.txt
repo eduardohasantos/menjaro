@@ -1,0 +1,1 @@
+Fluxo: banco de dados centralizado no qual todas as operações são feitas, dispensando problemas de compatibilidade. Fazer as configurações
