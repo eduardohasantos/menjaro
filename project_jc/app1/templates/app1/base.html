@@ -20,9 +20,9 @@
       </a>
 
       <nav class="main-nav">
-        <a class="nav-btn" id ="btn-mr" href="{% url 'app1:home' %}">Mais Recentes</a>
-        <a class="nav-btn" id= "btn-cat" href="{% url 'app1:categorias' %}">Categorias</a>
-        <a class="nav-btn" id= "btn-mf" href="{% url 'app1:meus_favoritos' %}">Meus Favoritos</a>
+        <a class="nav-btn" id="btn-mr" href="{% url 'app1:home' %}">Mais Recentes</a>
+        <a class="nav-btn" id="btn-cat" href="{% url 'app1:categorias' %}">Categorias</a>
+        <a class="nav-btn" id="btn-mf" href="{% url 'app1:meus_favoritos' %}">Meus Favoritos</a>
       </nav>
 
       <div class="header-actions">
@@ -87,10 +87,10 @@
       <div class="footer-col">
         <h4>Newsletter</h4>
         <p>Insira seu e-mail para receber as manchetes do dia.</p>
-        {% if form %}
+        {% if form_subscription %}
           <form action="{% url 'app1:subscribe' %}" method="post" class="footer-subscribe-form">
             {% csrf_token %}
-            {{ form.email }}
+            {{ form_subscription.email }}
             <button type="submit" class="btn-primary">Inscrever</button>
           </form>
         {% endif %}
