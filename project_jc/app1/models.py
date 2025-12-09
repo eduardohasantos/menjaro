@@ -38,14 +38,16 @@ class Noticia(models.Model):
     def __str__(self):
         return self.titulo
 
-class infografico:
-    #noticiaRelacionada = models.ForeignKey()
-    prompt = models.TextField(Noticia, on_delete=models.CASCADE)
-    infografico = models.ImageField(upload_to='noticias')
+
+#===============DESCONTINUADA===============
+# class infografico:
+#     noticiaRelacionada = models.ForeignKey(on_delete=models.CASCADE)
+#     prompt = models.TextField(Noticia)
+#     infografico = models.ImageField(upload_to='noticias')
     
 class resumo:
-    textoResumo = models.TextField(blank=False, on_delete=models.CASCADE)
-    noticiaRelacionada = models.ForeignKey(Noticia)
+    textoResumo = models.TextField(blank=False)
+    noticiaRelacionada = models.ForeignKey(Noticia, on_delete=models.CASCADE)
 
     
 class NewsletterSubscription(models.Model):
