@@ -137,6 +137,7 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
 
-EMAIL_HOST_USER = "seuemail@gmail.com"
-EMAIL_HOST_PASSWORD = "teste123*"
+EMAIL_HOST_USER = "commerciojornal@gmail.com"
+EMAIL_HOST_PASSWORD = "Teste123*"
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+EMAIL_HOST_PASSWORD = 'fdxd vfhf qkdq paha' 
