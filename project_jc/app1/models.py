@@ -39,12 +39,14 @@ class Noticia(models.Model):
         return self.titulo
 
 class infografico:
-    prompt = models.TextField()
-    base64txt = models.TextField()
+    #noticiaRelacionada = models.ForeignKey()
+    prompt = models.TextField(Noticia, on_delete=models.CASCADE)
+    infografico = models.ImageField(upload_to='noticias')
     
 class resumo:
-    prompt = models.TextField()
-    resumoTxt = models.TextField()
+    textoResumo = models.TextField(blank=False, on_delete=models.CASCADE)
+    noticiaRelacionada = models.ForeignKey(Noticia)
+
     
 class NewsletterSubscription(models.Model):
     email = models.EmailField(unique=True)
