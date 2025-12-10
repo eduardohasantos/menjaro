@@ -13,9 +13,9 @@ class LLMclass:
         """
         
     def geraResumo(self, prompt:str, obj:Noticia):
-        pipe = pipeline("summarization", model="facebook/bart-large-cnn", device="cuda") # Para usar a GPU no processamento
+        pipe = pipeline("summarization", model="facebook/bart-large-cnn") # Para usar a GPU no processamento
 
-        resultado = pipe(prompt, max_length=400, min_length=30) #Porque não pegar o indice 2 para pegar o resumo??
+        resultado = pipe(prompt, max_length=320, min_length=30) #Porque não pegar o indice 2 para pegar o resumo??
         self.registraResumo(resultado, obj)
         
         print(resultado)

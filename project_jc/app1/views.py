@@ -148,9 +148,12 @@ def visualizar_categorias(request):
 #Plotei mais ou menos como vai ficar
 def visualizar_resumo(request, pk):
     noticia = get_object_or_404(Noticia, pk=pk)
-    resumo = Resumo.objects.filter(noticiaRelacionada=pk)
-    
-    return render(request, resumo)
+    resumo = Resumo.objects.filter(noticiaRelacionada=pk).first()
+
+    return render(request, 'app1/resumo.html', {
+        'noticia': noticia,
+        'resumo': resumo
+    })
 
 
 def categoria_filtro(request, pk):
