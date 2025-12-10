@@ -1,10 +1,9 @@
 from django.contrib import admin
-#from project_jc.LLMgenerate.infografico 
+from LLMgenerate.infografico import LLMclass
+import sys
 
 # Register your models here.
-
 # app_name/admin.py
-
 from django.contrib import admin
 from .models import Categoria, Noticia, NewsletterSubscription, Comentario
 
@@ -29,21 +28,21 @@ class NoticiaAdmin(admin.ModelAdmin):
     readonly_fields = ('data_publicacao', 'visualizacoes')
     inlines = [ComentarioNaNoticia]
     
-    # def save_model(self, request, obj:Noticia, form, change):
-    #     # 'change' é False quando está criando, True quando está editando   
-    #     if not obj or not change:  # Se não tem resumo ou é novo
-    #         # Pega o campo de texto que será usado como prompt
-    #         texto_prompt = obj.conteudo
-            
-    #         # Chama seu modelo de IA
-    #         obj.resumo = self.gerar_resumo_com_ia(texto_prompt)
+    def save_model(self, request, obj:Noticia, form, change):
+    
+        # 'change' é False quando está criando, True quando está editando   
+        if not change:
+            # Pega o campo de texto que será usado como prompt
+            texto_prompt = obj.conteudo
         
-    #     # Salva o objeto normalmente
-    #     super().save_model(request, obj, form, change)
+        # Salva o objeto normalmente
+        super().save_model(request, obj, form, change)
+        executaResumo = LLMclass()
+        executaResumo.geraResumo(prompt=texto_prompt, obj=obj)
 
 fieldsets = (
     (None, {
-        'fields': ('titulo', 'conteudo', 'categoria', 'imagem')
+        'fields': ('titulo', 'conteudo', 'prompt', 'categoria', 'imagem')
     }),
     ('Dados do Sistema', {
         'fields': ('data_publicacao', 'visualizacoes'),

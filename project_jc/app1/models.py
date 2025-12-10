@@ -11,7 +11,7 @@ class Categoria(models.Model):
 
 class Noticia(models.Model):
     titulo = models.CharField(max_length=255)
-    conteudo = models.TextField()
+    conteudo = models.TextField(blank=False)
     data_publicacao = models.DateTimeField(auto_now_add=True)
     categoria = models.ForeignKey(
         Categoria, on_delete=models.SET_NULL, null=True, blank=True, related_name='noticias'
@@ -45,7 +45,7 @@ class Noticia(models.Model):
 #     prompt = models.TextField(Noticia)
 #     infografico = models.ImageField(upload_to='noticias')
     
-class resumo(models.Model):
+class Resumo(models.Model):
     textoResumo = models.TextField(blank=False)
     noticiaRelacionada = models.ForeignKey(Noticia, on_delete=models.CASCADE)
 

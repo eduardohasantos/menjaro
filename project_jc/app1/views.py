@@ -1,7 +1,7 @@
 from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
-from .models import Noticia, Categoria, Comentario
+from .models import Noticia, Categoria, Comentario, Resumo
 from .forms import SubscriptionForm, RegisterForm, ComentarioForm
 from django.views.generic import ListView
 from django.views.decorators.http import require_POST
@@ -144,6 +144,13 @@ def adicionar_comentario(request, pk):
 def visualizar_categorias(request):
     categorias = Categoria.objects.order_by('nome')
     return render(request, 'app1/categorias.html', {'categorias': categorias})
+
+#Plotei mais ou menos como vai ficar
+def visualizar_resumo(request, pk):
+    noticia = get_object_or_404(Noticia, pk=pk)
+    resumo = Resumo.objects.filter(noticiaRelacionada=pk)
+    
+    return render(request, resumo)
 
 
 def categoria_filtro(request, pk):
