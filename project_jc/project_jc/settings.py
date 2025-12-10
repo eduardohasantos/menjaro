@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+import dj_database_url
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,6 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-$w+k0^3-92!6ct=ra6v_34vqe5(=d++d!mgovl09jv6rk%m@db'
+SUPABASE_PASSWORD = "FDSprojectPassword1984"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -75,10 +78,11 @@ WSGI_APPLICATION = 'project_jc.wsgi.application'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': dj_database_url.parse(
+        os.environ.get('DATABASE_URL', f'postgresql://postgres.lpiovnpwdaybvhcalvrv:{SUPABASE_PASSWORD}@aws-0-us-west-2.pooler.supabase.com:6543/postgres'),
+        conn_max_age=600,
+        ssl_require=True
+    )
 }
 
 
