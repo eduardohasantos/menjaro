@@ -197,9 +197,12 @@ class AutomatedTests(StaticLiveServerTestCase):
         time.sleep(2)
     
     def test_aumentar_fonte(self):
-        login_url = self.live_server_url + '/noticia/1/'
+        login_url = self.live_server_url
         self.browser.get(login_url)
         wait = WebDriverWait(self.browser, self.wait_time)
+        
+        botao_ler_mais = self.browser.find_elements(By.CLASS_NAME, "ler__mais")
+        botao_ler_mais[0].click()
         
         botao_aumentar_fonte = wait.until(
             EC.element_to_be_clickable((By.ID, 'aumentar-fonte'))
@@ -210,9 +213,12 @@ class AutomatedTests(StaticLiveServerTestCase):
         time.sleep(2)
 
     def test_diminuir_fonte(self):
-        login_url = self.live_server_url + '/noticia/1/'
+        login_url = self.live_server_url
         self.browser.get(login_url)
         wait = WebDriverWait(self.browser, self.wait_time)
+        
+        botao_ler_mais = self.browser.find_elements(By.CLASS_NAME, "ler__mais")
+        botao_ler_mais[0].click()
         
         botao_diminuir_fonte = wait.until(
             EC.element_to_be_clickable((By.ID, 'diminuir-fonte'))
@@ -234,7 +240,10 @@ class AutomatedTests(StaticLiveServerTestCase):
         wait = WebDriverWait(self.browser, self.wait_time)
     
         #====CENARIO FAVORAVEL====
-        botaoEstrela = self.browser.find_element("xpath", "//*[@id='noticia-2']/div[2]/form/button")
+        botao_ler_mais = self.browser.find_elements(By.CLASS_NAME, "ler__mais")
+        botao_ler_mais[0].click()
+        
+        botaoEstrela = self.browser.find_element(By.XPATH, "i[@class='bi_bi-star']")
         botaoEstrela.click()
         
         time.sleep(3)
@@ -302,11 +311,8 @@ class AutomatedTests(StaticLiveServerTestCase):
     
         self.running_page() 
         
-        link_noticia = wait.until(
-            EC.element_to_be_clickable((By.XPATH, "//*[@id='noticia-1']/div[1]/a"))
-        )
-        
-        link_noticia.click()
+        botao_ler_mais = self.browser.find_elements(By.CLASS_NAME, "ler__mais")
+        botao_ler_mais[0].click()
         
         self.browser.find_element(By.NAME, "texto").send_keys("jones manoel")
         
@@ -318,7 +324,8 @@ class AutomatedTests(StaticLiveServerTestCase):
     def test_baixar_pdf(self):
         if not self.isE2E:
             self.test_register() 
-            self.acoesPausadas(3).find_element(By.XPATH, "//*[@id='noticia-1']/div[1]/a").click()
+            botao_ler_mais = self.browser.find_elements(By.CLASS_NAME, "ler__mais")
+            botao_ler_mais[0].click()
         
         botao_pdf = self.acoesPausadas(2).find_element(By.CLASS_NAME, "btn-download-pdf")
         botao_pdf.click()
@@ -333,7 +340,7 @@ class AutomatedTests(StaticLiveServerTestCase):
         self.test_entrar_noticia()
         self.test_aumentar_fonte()
         self.test_diminuir_fonte()
-        self.test_favoritos()
+        #self.test_favoritos()
         self.test_pesquisa_com_resultados()
         self.test_pesquisa_sem_resultados()
         self.test_comentar()
