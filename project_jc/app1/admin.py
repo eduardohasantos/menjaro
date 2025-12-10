@@ -1,4 +1,5 @@
 from django.contrib import admin
+#from project_jc.LLMgenerate.infografico 
 
 # Register your models here.
 
@@ -27,6 +28,18 @@ class NoticiaAdmin(admin.ModelAdmin):
     date_hierarchy = 'data_publicacao'
     readonly_fields = ('data_publicacao', 'visualizacoes')
     inlines = [ComentarioNaNoticia]
+    
+    # def save_model(self, request, obj:Noticia, form, change):
+    #     # 'change' é False quando está criando, True quando está editando   
+    #     if not obj or not change:  # Se não tem resumo ou é novo
+    #         # Pega o campo de texto que será usado como prompt
+    #         texto_prompt = obj.conteudo
+            
+    #         # Chama seu modelo de IA
+    #         obj.resumo = self.gerar_resumo_com_ia(texto_prompt)
+        
+    #     # Salva o objeto normalmente
+    #     super().save_model(request, obj, form, change)
 
 fieldsets = (
     (None, {
@@ -58,4 +71,3 @@ class ComentarioAdmin(admin.ModelAdmin):
         return obj.texto
 
     resumo_do_texto.short_description = 'Trecho do Comentário'
-
