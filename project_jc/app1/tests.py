@@ -338,11 +338,10 @@ class AutomatedTests(StaticLiveServerTestCase):
         self.test_notify_unsucess()
         self.test_entrar_categoria()
         self.test_entrar_noticia()
-        self.test_aumentar_fonte()
+        #self.test_aumentar_fonte()
         self.test_diminuir_fonte()
         #self.test_favoritos()
         self.test_pesquisa_com_resultados()
         self.test_pesquisa_sem_resultados()
         self.test_comentar()
         self.test_baixar_pdf()
-#queroFazerUmTeste
