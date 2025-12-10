@@ -45,7 +45,7 @@ class Noticia(models.Model):
 #     prompt = models.TextField(Noticia)
 #     infografico = models.ImageField(upload_to='noticias')
     
-class resumo:
+class resumo(models.Model):
     textoResumo = models.TextField(blank=False)
     noticiaRelacionada = models.ForeignKey(Noticia, on_delete=models.CASCADE)
 
