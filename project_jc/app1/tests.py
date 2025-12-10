@@ -191,10 +191,8 @@ class AutomatedTests(StaticLiveServerTestCase):
 
         wait = WebDriverWait(self.browser, self.wait_time)
         
-        botao_ler_mais = wait.until(
-            EC.element_to_be_clickable((By.XPATH, "//article[@id='noticia-1']//a[contains(@class,'ler__mais')]"))
-        )
-        botao_ler_mais.click()
+        botao_ler_mais = self.browser.find_elements(By.CLASS_NAME, "ler__mais")
+        botao_ler_mais[0].click()
 
         time.sleep(2)
     
