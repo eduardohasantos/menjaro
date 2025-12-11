@@ -8,6 +8,18 @@
   <header class="mb-4">
     <h1>{{ noticia.titulo }}</h1>
 
+    {% with resumo=noticia.resumo_set.first %}
+    {% if resumo %}
+      <button id="btnResumo" class="btn-toggle-resumo mt-2">
+        <i class="bi bi-chevron-down"></i> Mostrar resumo
+      </button>
+
+      <div id="boxResumo" class="box-resumo" style="display: none;">
+        {{ resumo.textoResumo|linebreaks }}
+      </div>
+    {% endif %}
+    {% endwith %}
+
     <a href="{% url 'app1:baixar_pdf_noticia' noticia.pk %}" class="btn-download-pdf">
       <i class="bi bi-file-earmark-pdf"></i> Baixar PDF
     </a>
@@ -36,7 +48,6 @@
 
   <hr>
 
-
   {% if noticia.imagem %}
   <div class="imagem-noticia my-4 text-center">
     <img class="imagem-noticia-img" src="{{ noticia.imagem.url }}" alt="Imagem da notícia" class="img-fluid rounded shadow-sm">
@@ -59,17 +70,17 @@
     <h3>Comentários ({{ comentarios.count }})</h3>
 
     <form method="get" class="mb-3 d-flex gap-2 filtro-comentarios">
-        <button type="submit" name="filtro" value="recentes" class="btn btn-filtro">
-            <i class="bi bi-arrow-down"></i> Mais recentes
+      <button type="submit" name="filtro" value="recentes" class="btn btn-filtro">
+        <i class="bi bi-arrow-down"></i> Mais recentes
+      </button>
+      <button type="submit" name="filtro" value="antigos" class="btn btn-filtro">
+        <i class="bi bi-arrow-up"></i> Mais antigos
+      </button>
+      {% if user.is_authenticated %}
+        <button type="submit" name="filtro" value="meus" class="btn btn-filtro">
+          <i class="bi bi-person"></i> Meus comentários
         </button>
-        <button type="submit" name="filtro" value="antigos" class="btn btn-filtro">
-            <i class="bi bi-arrow-up"></i> Mais antigos
-        </button>
-        {% if user.is_authenticated %}
-            <button type="submit" name="filtro" value="meus" class="btn btn-filtro">
-                <i class="bi bi-person"></i> Meus comentários
-            </button>
-        {% endif %}
+      {% endif %}
     </form>
 
     <div class="lista-comentarios mb-4">
@@ -177,6 +188,23 @@ document.addEventListener('DOMContentLoaded', () => {
     let tamanhoAtual = getTamanhoAtual();
     if (tamanhoAtual > TAMANHO_MINIMO) setTamanhoFonte(tamanhoAtual - INCREMENTO);
   });
+
+  /* --- RESUMO --- */
+  const btnResumo = document.getElementById("btnResumo");
+  const boxResumo = document.getElementById("boxResumo");
+
+  if (btnResumo && boxResumo) {
+      btnResumo.addEventListener("click", () => {
+          const oculto = boxResumo.style.display === "none";
+
+          boxResumo.style.display = oculto ? "block" : "none";
+
+          btnResumo.innerHTML = oculto
+              ? '<i class="bi bi-chevron-up"></i> Ocultar resumo'
+              : '<i class="bi bi-chevron-down"></i> Mostrar resumo';
+      });
+  }
+
 });
 </script>
 

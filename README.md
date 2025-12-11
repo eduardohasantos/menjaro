@@ -64,7 +64,9 @@ Projeto desenvolvido pelos alunos da disciplina **Projetos 2**.
 
 ## ✔️ Plataformas Utilizadas
 [![Docs](https://img.shields.io/badge/Docs-4285F4.svg?style=for-the-badge&logo=googledocs&logoColor=white)](https://docs.google.com/document/d/135Kd3Zr2Xbshk2W-SDKgKyMash7cN8LBxXVm6NHl1Qs/edit?usp=sharing)
+[![Google Drive](https://img.shields.io/badge/Google%20Drive-4285F4?style=for-the-badge&logo=googledrive&logoColor=white)](https://drive.google.com/drive/folders/177E-MwW9Btl2CuOO2pN1Zm_DiSdbEoXz?usp=sharing)
 [![Jira](https://img.shields.io/badge/jira-%230A0FFF.svg?style=for-the-badge&logo=jira&logoColor=white)](https://cesarfds.atlassian.net/jira/software/projects/P2G13/boards/34?atlOrigin=eyJpIjoiZWRlNzJkNTEwZGM5NDgzNThmM2Y1YmY0YzczZmZkY2UiLCJwIjoiaiJ9)
+
 
 
 ### Screencast - CI/CD Build, Deploy e Testes automatizados

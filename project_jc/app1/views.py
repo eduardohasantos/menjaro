@@ -1,7 +1,7 @@
 from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
-from .models import Noticia, Categoria, Comentario, Resumo
+from .models import Noticia, Categoria, Comentario, resumo
 from .forms import SubscriptionForm, RegisterForm, ComentarioForm
 from django.views.generic import ListView
 from django.views.decorators.http import require_POST
@@ -148,9 +148,12 @@ def visualizar_categorias(request):
 #Plotei mais ou menos como vai ficar
 def visualizar_resumo(request, pk):
     noticia = get_object_or_404(Noticia, pk=pk)
-    resumo = Resumo.objects.filter(noticiaRelacionada=pk)
-    
-    return render(request, resumo)
+    resumo = resumo.objects.filter(noticiaRelacionada=pk).first()
+
+    return render(request, 'app1/resumo.html', {
+        'noticia': noticia,
+        'resumo': resumo
+    })
 
 
 def categoria_filtro(request, pk):

@@ -18,9 +18,6 @@ class Noticia(models.Model):
     )
     imagem = models.ImageField(upload_to='noticias/', blank=True, null=True) 
     visualizacoes = models.PositiveIntegerField(default=0)
-    #infograficoAPI = models.ForeignKey(#em base64)
-    #resumoAPI = models.ForeignKey()
-    
     
     favoritos = models.ManyToManyField(
         User,
@@ -37,18 +34,10 @@ class Noticia(models.Model):
 
     def __str__(self):
         return self.titulo
-
-
-#===============DESCONTINUADA===============
-# class infografico:
-#     noticiaRelacionada = models.ForeignKey(on_delete=models.CASCADE)
-#     prompt = models.TextField(Noticia)
-#     infografico = models.ImageField(upload_to='noticias')
     
-class Resumo(models.Model):
+class resumo(models.Model):
     textoResumo = models.TextField(blank=False)
     noticiaRelacionada = models.ForeignKey(Noticia, on_delete=models.CASCADE)
-
     
 class NewsletterSubscription(models.Model):
     email = models.EmailField(unique=True)

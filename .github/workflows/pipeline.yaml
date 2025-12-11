@@ -39,7 +39,7 @@ jobs:
           cd project_jc
           python3 manage.py migrate
           python3 manage.py makemigrations
-          python3 manage.py test app1.tests.AutomatedTests.testE2E_COMPLETO
+          python3 manage.py test app1.tests.AutomatedTests.testE2E_COMPLETO --keepdb
         env:
           PYTHONUNBUFFERED: 1
           DJANGO_SETTINGS_MODULE: project_jc.settings
@@ -58,7 +58,7 @@ jobs:
         run: |
           # Criar arquivo com chave SSH
           mkdir -p ~/.ssh
-          echo "${{ secrets.DEPLOY_KEY }}" > ~/.ssh/ec2.key
+          echo "${{ secrets.EC2_KEY }}" > ~/.ssh/ec2.key
           chmod 400 ~/.ssh/ec2.key
           echo "StrictHostKeyChecking no" > ~/.ssh/config
 
