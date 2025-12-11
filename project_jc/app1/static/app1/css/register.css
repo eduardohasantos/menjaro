@@ -1,92 +1,98 @@
-.auth-container {
-    max-width: 600px; 
-    margin: 40px auto; 
-    padding: 30px; 
-    border: 1px solid var(--border, #ddd); 
-    border-radius: 8px; 
-    box-shadow: var(--shadow, 0 4px 12px rgba(0,0,0,0.05));
-    background: var(--bg, #fff);
+/* ======== Container Geral ======== */
+.register-container {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 30px;
+    background: #ffffff;
+    border: 1px solid #e5e5e5;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    animation: fadeIn 0.4s ease;
 }
 
-.auth-container h2 {
-    text-align: center; 
-    margin-bottom: 25px;
-    color: var(--text, #1f2937);
+/* Fade-in suave */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
 }
 
-.auth-container form p {
-    margin-bottom: 15px;
-    color: var(--text, #1f2937);
-}
-
-.auth-container form label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: 600;
-    color: var(--text, #1f2937);
-}
-
-.auth-container form input[type="text"],
-.auth-container form input[type="password"],
-.auth-container form input[type="email"] {
-    width: 100%;
-    padding: 10px;
-    box-sizing: border-box; /* Importante para o padding não quebrar o layout */
-    border: 1px solid var(--border, #ccc);
-    border-radius: 4px;
-    background: var(--bg, #fff);
-    color: var(--text, #1f2937);
-    font-size: 1rem;
-}
-
-.auth-container form .helptext {
-    font-size: 0.85rem;
-    color: var(--muted, #666);
-    display: block;
-    margin-top: 4px;
-}
-
-.auth-container form .errorlist {
-    color: #e21b2d;
-    list-style-type: none;
-    padding: 0;
-    margin: 5px 0;
-    font-weight: bold;
-}
-
-.auth-container .auth-button {
-    width: 100%; 
-    padding: 12px; 
-    font-size: 1.1rem; 
-    margin-top: 15px;
-    background-color: var(--brand, #e21b2d);
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-weight: 600;
-    transition: background-color 0.2s ease;
-}
-.auth-container .auth-button:hover {
-    background-color: #b0101f;
-}
-
-
-.auth-container hr {
-    margin: 25px 0;
-    border: 0;
-    border-top: 1px solid var(--border, #eee);
-}
-
-.auth-container .auth-link {
+.register-container h2 {
     text-align: center;
-    color: var(--text, #1f2937);
-}
-.auth-container .auth-link a {
-    color: var(--link, #0ea5e9);
-    text-decoration: none;
+    margin-bottom: 25px;
     font-weight: 600;
+    color: #333;
 }
-.auth-container .auth-link a:hover {
+
+/* ======== Formulário ======== */
+.register-container form p {
+    margin-bottom: 18px;
+}
+
+/* Labels */
+.register-container label {
+    font-weight: 500;
+    color: #444;
+}
+
+/* Inputs Django padrão */
+.register-container input[type="text"],
+.register-container input[type="email"],
+.register-container input[type="password"],
+.register-container input[type="username"] {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: all .2s;
+}
+
+/* Hover / Focus */
+.register-container input:focus {
+    border-color: #cc0000;
+    box-shadow: 0 0 4px rgba(204, 0, 0, 0.3);
+    outline: none;
+}
+
+/* ======== Botão ======== */
+.register-btn {
+    width: 100%;
+    padding: 12px;
+    margin-top: 15px;
+    background: #cc0000;
+    border: none;
+    border-radius: 6px;
+    color: #fff;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background .2s ease;
+}
+
+.register-btn:hover {
+    background: #a80000;
+}
+
+/* ======== Links ======== */
+.register-container a {
+    color: #cc0000;
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.register-container a:hover {
     text-decoration: underline;
+}
+
+/* Linha divisória */
+.register-container hr {
+    margin: 25px 0;
+    border: none;
+    border-top: 1px solid #e5e5e5;
+}
+
+/* Texto inferior */
+.register-container p {
+    text-align: center;
+    color: #444;
 }
