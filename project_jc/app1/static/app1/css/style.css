@@ -333,3 +333,93 @@ a { text-decoration: none; }
   font-size: 1rem;
   cursor: pointer;
 }
+
+/* === BOTÃO DO RESUMO (igual ao botão PDF) === */
+.btn-toggle-resumo {
+    --brand: #e21b2d;
+
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+
+    padding: 10px 18px;
+    border-radius: 12px;
+    border: 1px solid var(--brand);
+
+    background: color-mix(in oklab, var(--brand) 12%, #fff);
+    color: var(--brand);
+    font-weight: 600;
+    font-size: 0.95rem;
+
+    cursor: pointer;
+    transition: all 0.18s ease;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.06);
+}
+
+.btn-toggle-resumo i {
+    font-size: 1.1rem;
+    transition: transform .2s ease;
+}
+
+.btn-toggle-resumo:hover {
+    background: color-mix(in oklab, var(--brand) 22%, #fff);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0,0,0,.12);
+}
+
+.btn-toggle-resumo:hover i {
+    transform: scale(1.2);
+}
+
+/* DARK MODE */
+@media (prefers-color-scheme: dark) {
+  .btn-toggle-resumo {
+    background: color-mix(in oklab, var(--brand) 20%, #000);
+    color: #fff;
+    border-color: color-mix(in oklab, var(--brand) 70%, #000);
+  }
+
+  .btn-toggle-resumo:hover {
+    background: color-mix(in oklab, var(--brand) 30%, #000);
+    box-shadow: 0 6px 16px rgba(0,0,0,.35);
+  }
+}
+
+
+/* === BOX DO RESUMO (igual ao estilo do botão, mas formato de bloco) === */
+.box-resumo {
+    --brand: #e21b2d;
+
+    background: color-mix(in oklab, var(--brand) 10%, #fff);
+    border: 1px solid var(--brand);
+
+    padding: 18px 20px;
+    border-radius: 12px;
+
+    color: var(--text);
+    font-size: 1.05rem;
+    line-height: 1.6;
+
+    margin-top: 12px;
+    margin-bottom: 18px;
+
+    box-shadow: 0 3px 10px rgba(0,0,0,0.06);
+
+    animation: slideDown .25s ease-out;
+}
+
+/* DARK MODE */
+@media (prefers-color-scheme: dark) {
+  .box-resumo {
+      background: color-mix(in oklab, var(--brand) 20%, #000);
+      border-color: color-mix(in oklab, var(--brand) 70%, #000);
+      color: #fff;
+      box-shadow: 0 6px 16px rgba(0,0,0,.35);
+  }
+}
+
+/* Animação */
+@keyframes slideDown {
+    from { opacity: 0; transform: translateY(-6px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
