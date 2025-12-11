@@ -1,6 +1,4 @@
 from django.contrib import admin
-from LLMgenerate.infografico import LLMclass
-import sys
 
 # Register your models here.
 # app_name/admin.py
@@ -28,18 +26,6 @@ class NoticiaAdmin(admin.ModelAdmin):
     readonly_fields = ('data_publicacao', 'visualizacoes')
     inlines = [ComentarioNaNoticia]
     
-    def save_model(self, request, obj:Noticia, form, change):
-    
-        # 'change' é False quando está criando, True quando está editando   
-        if not change:
-            # Pega o campo de texto que será usado como prompt
-            texto_prompt = obj.conteudo
-        
-        # Salva o objeto normalmente
-        super().save_model(request, obj, form, change)
-        executaResumo = LLMclass()
-        executaResumo.geraResumo(prompt=texto_prompt, obj=obj)
-
 fieldsets = (
     (None, {
         'fields': ('titulo', 'conteudo', 'prompt', 'categoria', 'imagem')
