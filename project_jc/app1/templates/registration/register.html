@@ -1,27 +1,31 @@
 {% extends "app1/base.html" %}
-
+{% load static %}
 {% block title %}Criar Conta · News Site{% endblock %}
 
 {% block content %}
-<div class="container" style="max-width: 600px; margin: 40px auto; padding: 30px; border: 1px solid #ddd; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
-    
-    <h2 style="text-align: center; margin-bottom: 25px;">Criar Nova Conta</h2>
-    
+
+<link rel="stylesheet" href="{% static 'app1/css/register.css' %}">
+
+<div class="register-container">
+
+    <h2>Criar Nova Conta</h2>
+
     <form method="post" action="{% url 'register' %}">
         {% csrf_token %}
-        
         {{ form.as_p }}
-        
-        <button type="submit" class="btn btn-primary" style="width: 100%; padding: 10px; font-size: 1.1rem; margin-top: 15px;">
+
+        <button type="submit" class="register-btn">
             Criar Conta
         </button>
     </form>
-    
-    <hr style="margin: 25px 0;">
-    
-    <p style="text-align: center;">
+
+    <hr>
+
+    <p>
         Já tem uma conta? <a href="{% url 'login' %}">Faça login aqui</a>.
     </p>
+
 </div>
+
 
 {% endblock %}
