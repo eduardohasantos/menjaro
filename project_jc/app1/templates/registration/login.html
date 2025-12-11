@@ -1,13 +1,13 @@
+{% extends "app1/base.html" %}
 {% load static %}
-<!DOCTYPE html>
+{% block title %}Criar Conta · News Site{% endblock %}
+
+{% block content %}
+
 <html lang="pt-br">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login</title>
-  <link rel="stylesheet" href="{% static 'app1/css/login.css' %}">
-</head>
-<body>
+<title>Login</title>
+<link rel="stylesheet" href="{% static 'app1/css/login.css' %}">
+
 <section class="login-page">
   <div class="container">
     <h1>Entrar</h1>
@@ -39,5 +39,5 @@
     </p>
   </div>
 </section>
-</body>
-</html>
+
+{% endblock %}
